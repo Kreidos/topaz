@@ -3951,6 +3951,26 @@ namespace charutils
 
     /************************************************************************
     *                                                                       *
+    *  Save Eminence Records                                                *
+    *                                                                       *
+    ************************************************************************/
+
+    void SaveEminenceData(CCharEntity* PChar)
+    {
+        const char* Query =
+            "UPDATE chars "
+            "SET "
+            "eminence = '%s' "
+            "WHERE charid = %u;";
+
+        char eminenceList[sizeof(PChar->m_eminenceLog) * 2 + 1];
+        Sql_EscapeStringLen(SqlHandle, eminenceList, (const char*)&PChar->m_eminenceLog, sizeof(PChar->m_eminenceLog));
+
+        Sql_Query(SqlHandle, Query, eminenceList, PChar->id);
+    }
+
+    /************************************************************************
+    *                                                                       *
     *  Cохраняем список колючевых предметов                                 *
     *                                                                       *
     ************************************************************************/
@@ -4990,7 +5010,19 @@ namespace charutils
         return false;
     }
 
-    uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint32 recordID)
+    bool HasEminenceRecord(CCharEntity* PChar, uint16 recordID)
+    {
+        for(int i = 0; i < 31; i++)
+        {
+            if(PChar->m_eminenceLog.active[i] == recordID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID)
     {
         for(int i = 0; i < 31; i++)
         {
@@ -5002,7 +5034,7 @@ namespace charutils
         return 0;
     }
 
-    bool setEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress)
+    bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress)
     {
         for(int i = 0; i < 31; i++)
         {
