@@ -6038,14 +6038,31 @@ void SmallPacket0x10B(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 
 /************************************************************************
 *                                                                        *
-*  Request Currency1 tab                                                  *
+*  Eminence Record Start                                                  *
 *                                                                        *
 ************************************************************************/
 
 void SmallPacket0x10C(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
-    ShowInfo("\nStart+complete RoE: %u. \n", data.ref<uint32>(0x04));
-    charutils::SetEminenceRecord(PChar, data.ref<uint32>(0x04), true);
+    ShowInfo("\nStart RoE: %u. \n", data.ref<uint32>(0x04));
+    charutils::AddEminenceRecord(PChar, data.ref<uint32>(0x04));
+    PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
+//    charutils::SetEminenceRecordCompletion(PChar, data.ref<uint32>(0x04), true);
+    return;
+}
+
+/************************************************************************
+*                                                                        *
+*  Eminence Record Drop                                                  *
+*                                                                        *
+************************************************************************/
+
+void SmallPacket0x10D(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
+{
+    ShowInfo("\nDrop RoE: %u. \n", data.ref<uint32>(0x04));
+    charutils::DelEminenceRecord(PChar, data.ref<uint32>(0x04));
+    PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
+//    charutils::SetEminenceRecordCompletion(PChar, data.ref<uint32>(0x04), true);
     return;
 }
 
@@ -6111,8 +6128,8 @@ void SmallPacket0x112(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     PChar->pushPacket(new CRoeUpdatePacket(PChar));
 
-    auto outpacket = new CRoeQuestLogPacket(PChar, 0);
-    PrintPacket(*(CBasicPacket*)outpacket);
+//    auto outpacket = new CRoeUpdatePacket(PChar);
+//    PrintPacket(*(CBasicPacket*)outpacket);
 
     for(int i = 0; i < 4; i++)
         PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
@@ -6304,6 +6321,7 @@ void PacketParserInitialize()
     PacketSize[0x10A] = 0x06; PacketParser[0x10A] = &SmallPacket0x10A;
     PacketSize[0x10B] = 0x00; PacketParser[0x10B] = &SmallPacket0x10B;
     PacketSize[0x10C] = 0x04; PacketParser[0x10C] = &SmallPacket0x10C;
+    PacketSize[0x10D] = 0x04; PacketParser[0x10D] = &SmallPacket0x10D;
     PacketSize[0x10F] = 0x02; PacketParser[0x10F] = &SmallPacket0x10F;
     PacketSize[0x110] = 0x0A; PacketParser[0x110] = &SmallPacket0x110;
     PacketSize[0x111] = 0x00; PacketParser[0x111] = &SmallPacket0x111; // Lock Style Request

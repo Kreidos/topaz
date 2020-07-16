@@ -6586,23 +6586,48 @@ inline int32 CLuaBaseEntity::setMissionLogEx(lua_State *L)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::setEminenceRecord(lua_State *L)
+inline int32 CLuaBaseEntity::setEminenceCompletion(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
     TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
-    uint8 recordID = (uint8)lua_tointeger(L, 1);
-    bool status = (bool)lua_tointeger(L, 2);
+    uint16 recordID = (uint16)lua_tointeger(L, 1);
 
-    charutils::SetEminenceRecord(PChar, recordID, status);
+    bool status;
+    if (lua_isnil(L, 2))
+        status = false;
+    else
+        status = (bool)lua_tointeger(L, 2);
 
-//    charutils::SaveEminenceData(PChar);
+    charutils::SetEminenceRecordCompletion(PChar, recordID, status);
 
     return 0;
+}
+
+/************************************************************************
+*  Function: addEminenceRecord()
+*  Purpose :
+*  Example : player:addEminenceRecord(record#)
+*  Notes   :
+************************************************************************/
+
+inline int32 CLuaBaseEntity::addEminenceRecord(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    uint16 recordID = (uint16)lua_tointeger(L, 1);
+
+    bool result = charutils::AddEminenceRecord(PChar, recordID);
+    lua_pushboolean(L, result);
+
+    return 1;
 }
 
 /************************************************************************
@@ -14449,7 +14474,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,completeMission),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMissionLogEx),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMissionLogEx),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceRecord),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceCompletion),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addAssault),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delAssault),

@@ -173,7 +173,11 @@ namespace charutils
     void	SavePlayTime(CCharEntity* PChar);							// Saves this characters total play time.
     bool	hasMogLockerAccess(CCharEntity* PChar);						// true if have access, false otherwise.
 
-    void SetEminenceRecord(CCharEntity* PChar, int32 recordID, bool newStatus);
+    void    SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
+    bool    AddEminenceRecord(CCharEntity* PChar, uint16 recordID);
+    bool    DelEminenceRecord(CCharEntity* PChar, uint16 recordID);
+    bool    SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress);
+    uint32  GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID);
 
     float  AddExpBonus(CCharEntity* PChar, float exp);
 
