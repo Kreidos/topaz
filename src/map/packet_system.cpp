@@ -132,6 +132,9 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/position.h"
 #include "packets/release.h"
 #include "packets/release_special.h"
+#include "packets/roe_questlog.h"
+#include "packets/roe_sparkupdate.h"
+#include "packets/roe_update.h"
 #include "packets/server_ip.h"
 #include "packets/server_message.h"
 #include "packets/shop_appraise.h"
@@ -6083,6 +6086,26 @@ void SmallPacket0x111(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 }
 
 /************************************************************************
+*                                                                        *
+*  Roe Quest Log Request                                                 *
+*                                                                        *
+************************************************************************/
+
+void SmallPacket0x112(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
+{
+    // Send spark updates + current RoE quests
+    PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
+    PChar->pushPacket(new CRoeUpdatePacket(PChar));
+
+    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 0));
+    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 1));
+    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 2));
+    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 3));
+
+    return;
+}
+
+/************************************************************************
 *                                                                       *
 *  /sitchair                                                            *
 *                                                                       *
@@ -6140,6 +6163,19 @@ void SmallPacket0x114(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 void SmallPacket0x115(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
     PChar->pushPacket(new CCurrencyPacket2(PChar));
+    return;
+}
+
+/************************************************************************
+*                                                                        *
+*  Unity Menu Packet (Possibly incomplete)                               *
+*  This stub only handles the needed RoE updates.                        *
+*                                                                        *
+************************************************************************/
+
+void SmallPacket0x117(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
+{
+    PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     return;
 }
 
@@ -6255,10 +6291,12 @@ void PacketParserInitialize()
     PacketSize[0x10F] = 0x02; PacketParser[0x10F] = &SmallPacket0x10F;
     PacketSize[0x110] = 0x0A; PacketParser[0x110] = &SmallPacket0x110;
     PacketSize[0x111] = 0x00; PacketParser[0x111] = &SmallPacket0x111; // Lock Style Request
-    PacketSize[0x112] = 0x00; PacketParser[0x112] = &SmallPacket0xFFF;
+    PacketSize[0x112] = 0x00; PacketParser[0x112] = &SmallPacket0x112;
     PacketSize[0x113] = 0x06; PacketParser[0x113] = &SmallPacket0x113;
     PacketSize[0x114] = 0x00; PacketParser[0x114] = &SmallPacket0x114;
     PacketSize[0x115] = 0x02; PacketParser[0x115] = &SmallPacket0x115;
+    PacketSize[0x116] = 0x02; PacketParser[0x116] = &SmallPacket0xFFF; // not implemented
+    PacketSize[0x117] = 0x00; PacketParser[0x117] = &SmallPacket0x117;
 }
 
 /************************************************************************

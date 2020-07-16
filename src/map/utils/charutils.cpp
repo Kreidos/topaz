@@ -61,6 +61,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../packets/message_special.h"
 #include "../packets/message_standard.h"
 #include "../packets/quest_mission_log.h"
+#include "../packets/roe_sparkupdate.h"
 #include "../packets/server_ip.h"
 
 #include "../ability.h"
@@ -4918,6 +4919,9 @@ namespace charutils
         const char* Query = "UPDATE char_points SET %s = GREATEST(LEAST(%s+%d, %d), 0) WHERE charid = %u;";
 
         Sql_Query(SqlHandle, Query, type, type, amount, max, PChar->id);
+
+        if (strcmp(type, "spark_of_eminence") == 0)
+            PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     }
 
     void SetPoints(CCharEntity* PChar, const char* type, int32 amount)
@@ -4925,6 +4929,9 @@ namespace charutils
         const char* Query = "UPDATE char_points SET %s = %d WHERE charid = %u;";
 
         Sql_Query(SqlHandle, Query, type, amount, PChar->id);
+
+        if (strcmp(type, "spark_of_eminence") == 0)
+            PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     }
 
     int32 GetPoints(CCharEntity* PChar, const char* type)
