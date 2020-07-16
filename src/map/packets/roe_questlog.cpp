@@ -30,16 +30,7 @@ CRoeQuestLogPacket::CRoeQuestLogPacket(CCharEntity* PChar, uint8 order)
 	this->id(0x112);
 	this->length(0x104);
 
-//	if (order == 0)
-//	    ref<uint8>(0x04) |= 2;
-
-//    const char* query = "SELECT spark_of_eminence FROM char_points WHERE charid = %d";
-
-//    int ret = Sql_Query(SqlHandle, query, PChar->id);
-//    if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
-//    {
-//        ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0);
-//    }
+	memcpy(data + 0x04, &(PChar->m_eminenceLog.complete) + (order * 128), 128);
 
 	ref<uint32>(0x84) = order;
 }

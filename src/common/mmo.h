@@ -210,6 +210,13 @@ struct campaignlog_t
 	bool   complete[512];
 };
 
+struct eminencelog_t
+{
+    uint16 active[30];
+    uint32 progress[30];
+    std::bitset<4096> complete;
+};
+
 struct nameflags_t
 {
 	union {

@@ -30,7 +30,7 @@ CRoeUpdatePacket::CRoeUpdatePacket(CCharEntity* PChar)
 	this->id(0x111);
 	this->length(0x88);
 
-	ref<uint8>(0x04) |= 1;
+//	ref<uint8>(0x04) |= 1;
 
 //    const char* query = "SELECT spark_of_eminence FROM char_points WHERE charid = %d";
 
