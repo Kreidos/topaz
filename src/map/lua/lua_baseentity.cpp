@@ -126,6 +126,7 @@
 #include "../packets/position.h"
 #include "../packets/quest_mission_log.h"
 #include "../packets/release.h"
+#include "../packets/roe_questlog.h"
 #include "../packets/server_ip.h"
 #include "../packets/shop_items.h"
 #include "../packets/shop_menu.h"
@@ -6579,6 +6580,32 @@ inline int32 CLuaBaseEntity::setMissionLogEx(lua_State *L)
 }
 
 /************************************************************************
+*  Function: setEminenceRecord()
+*  Purpose :
+*  Example : player:setEminenceRecord(record#, 1)
+*  Notes   :
+************************************************************************/
+
+inline int32 CLuaBaseEntity::setEminenceRecord(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    uint8 recordID = (uint8)lua_tointeger(L, 1);
+    bool status = (bool)lua_tointeger(L, 2);
+
+    charutils::SetEminenceRecord(PChar, recordID, status);
+
+//    charutils::SaveEminenceData(PChar);
+
+    return 0;
+}
+
+/************************************************************************
 *  Function: getMissionLogEx()
 *  Purpose : Gets mission log extra data.
 *  Example : player:getMissionLogEx(tpz.mission.log_id.COP, tpz.mission.logEx.ULMIA)
@@ -6619,6 +6646,8 @@ inline int32 CLuaBaseEntity::getMissionLogEx(lua_State *L)
     }
     return 1;
 }
+
+
 
 /************************************************************************
 *  Function: addAssault()
@@ -14420,6 +14449,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,completeMission),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMissionLogEx),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMissionLogEx),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceRecord),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addAssault),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delAssault),

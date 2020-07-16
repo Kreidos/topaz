@@ -6042,6 +6042,19 @@ void SmallPacket0x10B(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 *                                                                        *
 ************************************************************************/
 
+void SmallPacket0x10C(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
+{
+    ShowInfo("\nStart+complete RoE: %u. \n", data.ref<uint32>(0x04));
+    charutils::SetEminenceRecord(PChar, data.ref<uint32>(0x04), true);
+    return;
+}
+
+/************************************************************************
+*                                                                        *
+*  Request Currency1 tab                                                  *
+*                                                                        *
+************************************************************************/
+
 void SmallPacket0x10F(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
     PChar->pushPacket(new CCurrencyPacket1(PChar));
@@ -6094,13 +6107,15 @@ void SmallPacket0x111(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 void SmallPacket0x112(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
     // Send spark updates + current RoE quests
+
     PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     PChar->pushPacket(new CRoeUpdatePacket(PChar));
 
-    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 0));
-    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 1));
-    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 2));
-    PChar->pushPacket(new CRoeQuestLogPacket(PChar, 3));
+    auto outpacket = new CRoeQuestLogPacket(PChar, 0);
+    PrintPacket(*(CBasicPacket*)outpacket);
+
+    for(int i = 0; i < 4; i++)
+        PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
 
     return;
 }
@@ -6288,6 +6303,7 @@ void PacketParserInitialize()
     PacketSize[0x109] = 0x00; PacketParser[0x109] = &SmallPacket0x109;
     PacketSize[0x10A] = 0x06; PacketParser[0x10A] = &SmallPacket0x10A;
     PacketSize[0x10B] = 0x00; PacketParser[0x10B] = &SmallPacket0x10B;
+    PacketSize[0x10C] = 0x04; PacketParser[0x10C] = &SmallPacket0x10C;
     PacketSize[0x10F] = 0x02; PacketParser[0x10F] = &SmallPacket0x10F;
     PacketSize[0x110] = 0x0A; PacketParser[0x110] = &SmallPacket0x110;
     PacketSize[0x111] = 0x00; PacketParser[0x111] = &SmallPacket0x111; // Lock Style Request

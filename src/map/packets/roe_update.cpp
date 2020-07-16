@@ -30,13 +30,20 @@ CRoeUpdatePacket::CRoeUpdatePacket(CCharEntity* PChar)
 	this->id(0x111);
 	this->length(0x88);
 
-//	ref<uint8>(0x04) |= 1;
+	//SE did some very unusual packing here, likely due to the progressive additions made to RoE.
+	//Each 4-bit nibble in the 4-byte chunk is labeled here. The second number is it's position.
+	//(0 is the lowest order. IE the right-most bits)
+	// A1 A0 B0 A2 B2 B1 B4 B3  |  A = Record ID B = Progress
 
-//    const char* query = "SELECT spark_of_eminence FROM char_points WHERE charid = %d";
+	for(uint32 i = 0; i < 30; i++)
+	{
+	    uint32 id = PChar->m_eminenceLog.active[i];
+	    uint32 progress = PChar->m_eminenceLog.progress[i];
+	    int c_offset = i * 0x04;
+	    ref<uint8>(0x04 + c_offset) = id & 0xFF;
+	    ref<uint8>(0x05 + c_offset) = (progress & 0xF) + (((id >> 8) & 0xF) << 4);
+	    ref<uint8>(0x06 + c_offset) = (progress >> 4) & 0xFF;
+	    ref<uint8>(0x07 + c_offset) = progress >> 12;
+	}
 
-//    int ret = Sql_Query(SqlHandle, query, PChar->id);
-//    if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
-//    {
-//        ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0);
-//    }
 }

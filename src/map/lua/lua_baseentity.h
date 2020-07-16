@@ -309,6 +309,7 @@ public:
     int32 completeMission(lua_State*);      // Complete Mission
     int32 setMissionLogEx(lua_State*);      // Sets mission log extra data to correctly track progress in branching missions.
     int32 getMissionLogEx(lua_State*);      // Gets mission log extra data.
+    int32 setEminenceRecord(lua_State *L);  // Sets the complete flag for a record
 
     int32 addAssault(lua_State*);           // Add Mission
     int32 delAssault(lua_State*);           // Delete Mission from Mission Log

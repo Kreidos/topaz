@@ -62,6 +62,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "../packets/message_standard.h"
 #include "../packets/quest_mission_log.h"
 #include "../packets/roe_sparkupdate.h"
+#include "../packets/roe_questlog.h"
 #include "../packets/server_ip.h"
 
 #include "../ability.h"
@@ -4932,6 +4933,21 @@ namespace charutils
 
         if (strcmp(type, "spark_of_eminence") == 0)
             PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
+    }
+
+    void SetEminenceRecord(CCharEntity* PChar, int32 recordID, bool newStatus)
+    {
+        uint8 page = recordID / 8;
+        uint8 bit = recordID % 8;
+        if(newStatus)
+            PChar->m_eminenceLog.complete[page] |= (1 << bit);
+        else
+            PChar->m_eminenceLog.complete[page] &= ~(1 << bit);
+
+        for(int i = 0; i < 4; i++)
+        {
+            PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
+        }
     }
 
     int32 GetPoints(CCharEntity* PChar, const char* type)

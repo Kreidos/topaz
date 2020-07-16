@@ -212,9 +212,9 @@ struct campaignlog_t
 
 struct eminencelog_t
 {
-    uint16 active[30];
-    uint32 progress[30];
-    std::bitset<4096> complete;
+    uint16 active[31];
+    uint32 progress[31];
+    uint8 complete[512]; //bitmap of all 4096 possible records.
 };
 
 struct nameflags_t
