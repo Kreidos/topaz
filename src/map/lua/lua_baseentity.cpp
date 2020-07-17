@@ -6609,60 +6609,13 @@ inline int32 CLuaBaseEntity::setEminenceCompleted(lua_State *L)
 }
 
 /************************************************************************
-*  Function: addEminenceRecord()
+*  Function: setEminenceRecordProgress()
 *  Purpose :
-*  Example : player:addEminenceRecord(record#)
+*  Example : player:addEminenceRecord(19, 2)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::delEminenceRecord(lua_State *L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
-    uint16 recordID = (uint16)lua_tointeger(L, 1);
-
-    bool result = charutils::DelEminenceRecord(PChar, recordID);
-    lua_pushboolean(L, result);
-
-    return 1;
-}
-
-/************************************************************************
-*  Function: hasEminenceRecord()
-*  Purpose :
-*  Example : player:hasEminenceRecord(1)
-*  Notes   :
-************************************************************************/
-
-inline int32 CLuaBaseEntity::hasEminenceRecord(lua_State *L)
-{
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
-
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
-    uint16 recordID = (uint16)lua_tointeger(L, 1);
-
-    bool result = charutils::HasEminenceRecord(PChar, recordID);
-    lua_pushboolean(L, result);
-
-    return 1;
-}
-
-
-/************************************************************************
-*  Function: addEminenceRecord()
-*  Purpose :
-*  Example : player:addEminenceRecord(record#)
-*  Notes   :
-************************************************************************/
-
-inline int32 CLuaBaseEntity::setEminenceRecordProgress(lua_State *L)
+inline int32 CLuaBaseEntity::setEminenceProgress(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
@@ -6681,13 +6634,13 @@ inline int32 CLuaBaseEntity::setEminenceRecordProgress(lua_State *L)
 }
 
 /************************************************************************
-*  Function: getEminenceRecord()
+*  Function: getEminenceRecordProgress()
 *  Purpose :
-*  Example : player:getEminenceRecord(1)
+*  Example : player:getEminenceRecordProgress(1)
 *  Notes   :
 ************************************************************************/
 
-inline int32 CLuaBaseEntity::getEminenceRecordProgress(lua_State *L)
+inline int32 CLuaBaseEntity::getEminenceProgress(lua_State *L)
 {
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
@@ -6697,8 +6650,13 @@ inline int32 CLuaBaseEntity::getEminenceRecordProgress(lua_State *L)
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
     uint16 recordID = (uint16)lua_tointeger(L, 1);
 
-    uint32 result = charutils::GetEminenceRecordProgress(PChar, recordID);
-    lua_pushinteger(L, result);
+    if(charutils::HasEminenceRecord(PChar, recordID))
+    {
+        uint32 progress = charutils::GetEminenceRecordProgress(PChar, recordID);
+        lua_pushinteger(L, progress);
+    } else {
+        lua_pushnil(L);
+    }
 
     return 1;
 }
@@ -14546,8 +14504,8 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMissionLogEx),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMissionLogEx),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceCompleted),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasEminenceRecord),
-    LUNAR_DECLARE_METHOD(CLuaBaseEntity,delEminenceRecord),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEminenceProgress),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceProgress),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addAssault),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delAssault),
