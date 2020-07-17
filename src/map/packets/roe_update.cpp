@@ -35,20 +35,17 @@ CRoeUpdatePacket::CRoeUpdatePacket(CCharEntity* PChar)
 	//(0 is the lowest order. IE the right-most bits)
 	// A1A0 B0A2 B2B1 B4B3  |  A = Record ID B = Progress
 
-	for(uint32 i = 0; i < 31; i++)
+	for(uint32 i = 0; i < 30; i++)
 	{
 	    uint32 id = PChar->m_eminenceLog.active[i];
 	    uint32 progress = PChar->m_eminenceLog.progress[i];
-	    // The last slot is the limited-time trial and goes way at the end.
-	    int c_offset = i < 30 ? i * 0x04 : 0xFC;
-
+	    int c_offset = i * 0x04;
+	    
 	    ref<uint8>(0x04 + c_offset) = id & 0xFF;
 	    ref<uint8>(0x05 + c_offset) = ((progress & 0xF) << 4) + ((id >> 8) & 0xF);
 	    ref<uint8>(0x06 + c_offset) = (progress >> 4) & 0xFF;
 	    ref<uint8>(0x07 + c_offset) = progress >> 12;
 	}
-
-	// Time-limited trial slot is way at the end. Not implemented yet but we still left space for it.
 
 
 }
