@@ -175,6 +175,7 @@ namespace charutils
     bool	hasMogLockerAccess(CCharEntity* PChar);						// true if have access, false otherwise.
 
     void    SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
+    bool    GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID);
     bool    AddEminenceRecord(CCharEntity* PChar, uint16 recordID);
     bool    DelEminenceRecord(CCharEntity* PChar, uint16 recordID);
     bool    HasEminenceRecord(CCharEntity* PChar, uint16 recordID);

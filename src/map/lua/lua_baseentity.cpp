@@ -6651,6 +6651,28 @@ inline int32 CLuaBaseEntity::setEminenceCompleted(lua_State *L)
 }
 
 /************************************************************************
+*  Function: getEminenceCompleted()
+*  Purpose : Returns true if eminence is flagged complete for player
+*  Example : player:getEminenceCompleted(1)
+*  Notes   :
+************************************************************************/
+
+inline int32 CLuaBaseEntity::getEminenceCompleted(lua_State *L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    uint16 recordID = (uint16)lua_tointeger(L, 1);
+
+    lua_pushboolean(L, (bool)charutils::GetEminenceRecordCompletion(PChar, recordID));
+
+    return 1;
+}
+
+/************************************************************************
 *  Function: setEminenceProgress(record, progress)
 *  Purpose :
 *  Example : player:setEminenceProgress(19, 3)

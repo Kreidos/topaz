@@ -4978,6 +4978,13 @@ namespace charutils
         charutils::SaveEminenceData(PChar);
     }
 
+    bool GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID)
+    {
+        uint8 page = recordID / 8;
+        uint8 bit = recordID % 8;
+        return PChar->m_eminenceLog.complete[page] & (1 << bit);
+    }
+
     bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID)
     {
         // TODO: Time limited records aren't implemented yet and can't be accepted normally.

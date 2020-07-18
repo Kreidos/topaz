@@ -311,6 +311,7 @@ public:
     int32 getMissionLogEx(lua_State*);      // Gets mission log extra data.
 
     int32 setEminenceCompleted(lua_State *L);  // Sets the complete flag for a record of eminence
+    int32 getEminenceCompleted(lua_State *L);  // Gets the record completed flag
     int32 setEminenceProgress(lua_State *L);   // Sets progress on a record of eminence
     int32 getEminenceProgress(lua_State *L);   // gets progress on a record of eminence
 
