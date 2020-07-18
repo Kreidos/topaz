@@ -6679,7 +6679,7 @@ inline int32 CLuaBaseEntity::setEminenceProgress(lua_State *L)
 *  Function: getEminenceProgress(record)
 *  Purpose :
 *  Example : player:getEminenceProgress(19)
-*  Notes   :
+*  Notes   : returns nil if player does not have the record.
 ************************************************************************/
 
 inline int32 CLuaBaseEntity::getEminenceProgress(lua_State *L)

@@ -4981,7 +4981,11 @@ namespace charutils
     bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID)
     {
         // TODO: Time limited records aren't implemented yet and can't be accepted normally.
-        //       For now we are protecting its slot from use here. This i < 30 is correct.
+        //       For now we are refusing their IDs outright and protecting its slot from use here.
+        if(recordID > 2047)
+            return false;
+
+        // Per above, this i < 30 is correct.
         for(int i = 0; i < 30; i++)
         {
             if(PChar->m_eminenceLog.active[i] == 0)
