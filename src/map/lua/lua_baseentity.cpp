@@ -14525,6 +14525,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,completeMission),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMissionLogEx),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMissionLogEx),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEminenceCompleted),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceCompleted),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEminenceProgress),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setEminenceProgress),
