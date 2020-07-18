@@ -4991,14 +4991,9 @@ namespace charutils
             if(PChar->m_eminenceLog.active[i] == 0)
             {
                 PChar->m_eminenceLog.active[i] = recordID;
-                // Shift this new entry to the top so records are shown in
-                // retail-accurate order.
-                for(int j = i; j > 0; j--)
-                {
-                    std::swap(PChar->m_eminenceLog.active[j], PChar->m_eminenceLog.active[j-1]);
-                    std::swap(PChar->m_eminenceLog.progress[j], PChar->m_eminenceLog.progress[j-1]);
-                }
+
                 PChar->pushPacket(new CRoeUpdatePacket(PChar));
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, recordID, 0, MSGBASIC_ROE_START));
                 SaveEminenceData(PChar);
                 return true;
             }
@@ -5018,6 +5013,12 @@ namespace charutils
             {
                 PChar->m_eminenceLog.active[i] = 0;
                 PChar->m_eminenceLog.progress[i] = 0;
+                // Shift entries up so records are shown in retail-accurate order.
+                for(int j = i; j < 29 && PChar->m_eminenceLog.active[j+1] != 0; j++)
+                {
+                    std::swap(PChar->m_eminenceLog.active[j], PChar->m_eminenceLog.active[j+1]);
+                    std::swap(PChar->m_eminenceLog.progress[j], PChar->m_eminenceLog.progress[j+1]);
+                }
                 PChar->pushPacket(new CRoeUpdatePacket(PChar));
                 charutils::SaveEminenceData(PChar);
                 return true;
