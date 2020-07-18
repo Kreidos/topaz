@@ -354,10 +354,11 @@ namespace charutils
             "missions,"             // 21
             "assault,"              // 22
             "campaign,"             // 23
-            "playtime,"             // 24
-            "campaign_allegiance,"  // 25
-            "isstylelocked,"        // 26
-            "moghancement "         // 27
+            "eminence,"             // 24
+            "playtime,"             // 25
+            "campaign_allegiance,"  // 26
+            "isstylelocked,"        // 27
+            "moghancement "         // 28
             "FROM chars "
             "WHERE charid = %u";
 
@@ -432,10 +433,15 @@ namespace charutils
             Sql_GetData(SqlHandle, 23, &campaign, &length);
             memcpy(&PChar->m_campaignLog, campaign, (length > sizeof(PChar->m_campaignLog) ? sizeof(PChar->m_campaignLog) : length));
 
-            PChar->SetPlayTime(Sql_GetUIntData(SqlHandle, 24));
-            PChar->profile.campaign_allegiance = (uint8)Sql_GetIntData(SqlHandle, 25);
-            PChar->setStyleLocked(Sql_GetIntData(SqlHandle, 26) == 1 ? true : false);
-            PChar->SetMoghancement(Sql_GetUIntData(SqlHandle, 27));
+            length = 0;
+            char* eminence = nullptr;
+            Sql_GetData(SqlHandle, 24, &eminence, &length);
+            memcpy(&PChar->m_eminenceLog, eminence, (length > sizeof(PChar->m_eminenceLog) ? sizeof(PChar->m_eminenceLog) : length));
+
+            PChar->SetPlayTime(Sql_GetUIntData(SqlHandle, 25));
+            PChar->profile.campaign_allegiance = (uint8)Sql_GetIntData(SqlHandle, 26);
+            PChar->setStyleLocked(Sql_GetIntData(SqlHandle, 27) == 1 ? true : false);
+            PChar->SetMoghancement(Sql_GetUIntData(SqlHandle, 28));
         }
 
         LoadSpells(PChar);
@@ -4969,20 +4975,27 @@ namespace charutils
         {
             PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
         }
-        //    charutils::SaveEminenceData(PChar);
+        charutils::SaveEminenceData(PChar);
     }
 
     bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID)
     {
+        // TODO: Time limited records aren't implemented yet and can't be accepted normally.
+        //       For now we are protecting its slot from use here. This i < 30 is correct.
         for(int i = 0; i < 30; i++)
         {
             if(PChar->m_eminenceLog.active[i] == 0)
             {
                 PChar->m_eminenceLog.active[i] = recordID;
-                // TODO: possibly std::swap everything behind us so the records show
-                // in retail-accurate ordering.
+                // Shift this new entry to the top so records are shown in
+                // retail-accurate order.
+                for(int j = i; j > 0; j--)
+                {
+                    std::swap(PChar->m_eminenceLog.active[j], PChar->m_eminenceLog.active[j-1]);
+                    std::swap(PChar->m_eminenceLog.progress[j], PChar->m_eminenceLog.progress[j-1]);
+                }
                 PChar->pushPacket(new CRoeUpdatePacket(PChar));
-                //    charutils::SaveEminenceData(PChar);
+                SaveEminenceData(PChar);
                 return true;
             }
             else if(PChar->m_eminenceLog.active[i] == recordID)
@@ -4995,7 +5008,6 @@ namespace charutils
 
     bool DelEminenceRecord(CCharEntity* PChar, uint16 recordID)
     {
-        // Unlike Add, we may remove time-limited ones, so 31 is correct.
         for(int i = 0; i < 31; i++)
         {
             if(PChar->m_eminenceLog.active[i] == recordID)
@@ -5003,7 +5015,7 @@ namespace charutils
                 PChar->m_eminenceLog.active[i] = 0;
                 PChar->m_eminenceLog.progress[i] = 0;
                 PChar->pushPacket(new CRoeUpdatePacket(PChar));
-                //    charutils::SaveEminenceData(PChar);
+                charutils::SaveEminenceData(PChar);
                 return true;
             }
         }
@@ -5042,7 +5054,7 @@ namespace charutils
             {
                 PChar->m_eminenceLog.progress[i] = progress;
                 PChar->pushPacket(new CRoeUpdatePacket(PChar));
-                //    charutils::SaveEminenceData(PChar);
+                charutils::SaveEminenceData(PChar);
                 return true;
             }
         }

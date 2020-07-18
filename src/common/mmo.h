@@ -212,7 +212,7 @@ struct campaignlog_t
 
 struct eminencelog_t
 {
-    uint16 active[31];
+    uint16 active[31];   //slot 31 is for time-limited records
     uint32 progress[31];
     uint8 complete[512]; //bitmap of all 4096 possible records.
 };

@@ -6044,10 +6044,8 @@ void SmallPacket0x10B(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 
 void SmallPacket0x10C(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
-    ShowInfo("\nStart RoE: %u. \n", data.ref<uint32>(0x04));
     charutils::AddEminenceRecord(PChar, data.ref<uint32>(0x04));
     PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
-//    charutils::SetEminenceRecordCompletion(PChar, data.ref<uint32>(0x04), true);
     return;
 }
 
@@ -6059,10 +6057,8 @@ void SmallPacket0x10C(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 
 void SmallPacket0x10D(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
-    ShowInfo("\nDrop RoE: %u. \n", data.ref<uint32>(0x04));
     charutils::DelEminenceRecord(PChar, data.ref<uint32>(0x04));
     PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
-//    charutils::SetEminenceRecordCompletion(PChar, data.ref<uint32>(0x04), true);
     return;
 }
 
@@ -6124,13 +6120,9 @@ void SmallPacket0x111(map_session_data_t* session, CCharEntity* PChar, CBasicPac
 void SmallPacket0x112(map_session_data_t* session, CCharEntity* PChar, CBasicPacket data)
 {
     // Send spark updates + current RoE quests
-
     PChar->pushPacket(new CRoeSparkUpdatePacket(PChar));
     PChar->pushPacket(new CRoeUpdatePacket(PChar));
-
-//    auto outpacket = new CRoeUpdatePacket(PChar);
-//    PrintPacket(*(CBasicPacket*)outpacket);
-
+    // 4-part Eminence Completion bitmap
     for(int i = 0; i < 4; i++)
         PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
 
