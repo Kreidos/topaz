@@ -414,9 +414,10 @@ end
 function npcUtil.completeRecord(player, record, params)
     params = params or {}
 
+    player:messageBasic(tpz.msg.basic.ROE_COMPLETE,record)
+
     if params["sparks"] ~= nil and type(params["sparks"]) == "number" then
         local bonus = 1
-        player:messageBasic(tpz.msg.basic.ROE_COMPLETE,record)
         if player:getEminenceCompleted(record) then
             player:addCurrency('spark_of_eminence', params["sparks"] * bonus * SPARKS_RATE)
             player:messageBasic(tpz.msg.basic.ROE_RECEIVE_SPARKS, params["sparks"] * SPARKS_RATE, player:getCurrency("spark_of_eminence"))
