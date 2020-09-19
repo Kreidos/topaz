@@ -27,6 +27,7 @@
 #include "lua/luautils.h"
 #include "packets/chat_message.h"
 #include "utils/charutils.h"
+#include "utils/zoneutils.h"
 
 #include "packets/roe_questlog.h"
 #include "packets/roe_sparkupdate.h"
@@ -89,6 +90,7 @@ int32 ParseRecords(lua_State* L)
 {
     roeutils::RoeSystem.ImplementedRecords.reset();
     roeutils::RoeSystem.RepeatableRecords.reset();
+    roeutils::RoeSystem.DailyRecords.reset();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
 
     if (lua_isnil(L, -1) || !lua_istable(L, -1))
@@ -106,6 +108,12 @@ int32 ParseRecords(lua_State* L)
         lua_getfield(L, -1, "notify");
         if (!lua_isnil(L, -1))
             roeutils::RoeSystem.NotifyThresholds[recordID] = static_cast<uint32>((lua_tointeger(L, -1)));
+        lua_pop(L, 1);
+
+        // Set time flags
+        lua_getfield(L, -1, "timeFlag");
+        if (lua_isstring(L, -1) && std::string(lua_tostring(L, -1)) == "daily")
+            roeutils::RoeCache.DailyRecords.set(recordID);
         lua_pop(L, 1);
 
         // Set repeatability bit
@@ -322,6 +330,33 @@ bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progr
         }
     }
     return false;
+}
+
+void ClearDailyRecords(CCharEntity* PChar)
+{
+    // Player has no daily records
+    if ((PChar->m_eminenceCache.activemap & roeutils::RoeCache.DailyRecords).none())
+        return;
+
+    for(int i = 0; i < 30 && PChar->m_eminenceLog.active[i] != 0; i++)
+    {
+        if (auto recordID = PChar->m_eminenceLog.active[i]; roeutils::RoeCache.DailyRecords.test(recordID))
+        {
+            PChar->m_eminenceLog.progress[i] = 0;
+            roeutils::SetEminenceRecordCompletion(PChar, recordID, false);
+        }
+    }
+    PChar->pushPacket(new CRoeUpdatePacket(PChar));
+}
+
+bool UpdateDailyRecords()
+{
+    zoneutils::ForEachZone([](CZone* PZone){
+        PZone->ForEachChar([](CCharEntity* PChar){
+            ClearDailyRecords(PChar);
+        });
+    });
+    return true;
 }
 
 } /* namespace roe */

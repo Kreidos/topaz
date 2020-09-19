@@ -2011,6 +2011,18 @@ tpz.roe.records =
   -- Combat (Region) - Escha 2          --
   ----------------------------------------
 
+  ----------------------------------------
+  -- Other - Daily Objectives           --
+  ----------------------------------------
+
+    [4082] = { -- Vanquish Multiple Enemies (D)
+        trigger = triggers.mobKill,
+        goal = 30,
+        timeFlag = "daily",
+        reqs = { mobXP = true },
+        reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 }, repeatable = true },
+    },
+
 }
 
  -- Apply defaults for records

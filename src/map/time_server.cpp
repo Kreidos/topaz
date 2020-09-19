@@ -23,6 +23,7 @@
 
 #include "utils/guildutils.h"
 #include "utils/instanceutils.h"
+#include "roe.h"
 #include "time_server.h"
 #include "timetriggers.h"
 #include "transport.h"

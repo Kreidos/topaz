@@ -55,6 +55,7 @@ struct RoeSystemData
     bool RoeEnabled;
     std::bitset<4096> ImplementedRecords;
     std::bitset<4096> RepeatableRecords;
+    std::bitset<4096> DailyRecords;
     std::array<uint32, 4096> NotifyThresholds;
 };
 
@@ -114,6 +115,9 @@ bool DelEminenceRecord(CCharEntity* PChar, uint16 recordID);
 bool HasEminenceRecord(CCharEntity* PChar, uint16 recordID);
 bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress);
 uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID);
+
+void ClearTimedDaily();
+bool UpdateDailyRecords();
 
 } /* namespace roe */
 
