@@ -31,6 +31,7 @@
 #include "utils/zoneutils.h"
 
 CVanaTime* CVanaTime::_instance = nullptr;
+#define JST_OFFSET 32400; // JST +offset from UTC
 
 CVanaTime::CVanaTime()
 {
