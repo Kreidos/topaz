@@ -116,7 +116,8 @@ bool HasEminenceRecord(CCharEntity* PChar, uint16 recordID);
 bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress);
 uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID);
 
-void ClearTimedDaily();
+void onCharLoad(CCharEntity* PChar);
+void ClearDailyRecords(CCharEntity* PChar);
 bool UpdateDailyRecords();
 
 } /* namespace roe */

@@ -21,8 +21,10 @@
 
 ===========================================================================
 */
+#include <time.h>
 
 #include "roe.h"
+#include "vana_time.h"
 #include "../common/lua/lunar.h"
 #include "lua/luautils.h"
 #include "packets/chat_message.h"
@@ -330,6 +332,44 @@ bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progr
         }
     }
     return false;
+}
+
+void onCharLoad(CCharEntity* PChar)
+{
+
+    // Build eminence lookup map
+    for(int i = 0; i < 31; i++)
+    {
+        uint16 record = PChar->m_eminenceLog.active[i];
+        if(record) PChar->m_eminenceCache.activemap.set(record);
+    }
+
+    // Time gets messy, avert your eyes.
+    const int JST_OFFSET = 32400;
+    auto now = time(nullptr);
+    auto jstnow = now + JST_OFFSET;
+    auto lastOnline = PChar->m_eminenceCache.lastOnline;
+
+    {   // Daily Reset
+        auto* t = gmtime(&jstnow);
+        t->tm_hour = 0;
+        t->tm_min = 0;
+        t->tm_sec = 0;
+        auto lastJstMidnight = timegm(t) - JST_OFFSET;
+        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstmidnight(%d) Reset daily = %s\n", lastOnline, lastJstMidnight, lastOnline < lastJstMidnight ? "True" : "False");
+        if (lastOnline < lastJstMidnight)
+            ClearDailyRecords(PChar);
+    }
+
+    {   // 4hr Reset
+        auto* t = gmtime(&jstnow);
+        t->tm_hour = t->tm_hour & 0xFC;
+        t->tm_min = 0;
+        t->tm_sec = 0;
+        auto lastJstBlock = timegm(t) - JST_OFFSET;
+        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\n", lastOnline, lastJstBlock, lastOnline < lastJstBlock ? "True" : "False");
+    }
+
 }
 
 void ClearDailyRecords(CCharEntity* PChar)
