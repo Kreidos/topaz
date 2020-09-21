@@ -90,20 +90,22 @@ int32 RegisterHandler(lua_State* L)
 
 int32 ParseRecords(lua_State* L)
 {
+    if (lua_isnil(L, -1) || !lua_istable(L, -1))
+        return 0;
+
     roeutils::RoeSystem.ImplementedRecords.reset();
     roeutils::RoeSystem.RepeatableRecords.reset();
     roeutils::RoeSystem.DailyRecords.reset();
+    roeutils::RoeSystem.DailyRecordIDs.clear();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
-
-    if (lua_isnil(L, -1) || !lua_istable(L, -1))
-        return 0;
+    roeutils::RoeSystem.TimedRecordTable.fill(TimedRecordMatrix_D{});
 
     // Build caching bitsets from records
     lua_pushnil(L);
     while (lua_next(L, -2) != 0)
     {
         // Set Implemented bit.
-        uint32 recordID = static_cast<uint32>(lua_tointeger(L, -2));
+        uint16 recordID = static_cast<uint16>(lua_tointeger(L, -2));
         roeutils::RoeSystem.ImplementedRecords.set(recordID);
 
         // Set notification threshold
@@ -115,7 +117,10 @@ int32 ParseRecords(lua_State* L)
         // Set time flags
         lua_getfield(L, -1, "timeFlag");
         if (lua_isstring(L, -1) && std::string(lua_tostring(L, -1)) == "daily")
-            roeutils::RoeCache.DailyRecords.set(recordID);
+        {
+            roeutils::RoeSystem.DailyRecords.set(recordID);
+            roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
+        }
         lua_pop(L, 1);
 
         // Set repeatability bit
@@ -232,6 +237,7 @@ void SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newSt
         PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
     }
     charutils::SaveEminenceData(PChar);
+
 }
 
 bool GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID)
@@ -253,6 +259,9 @@ bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID)
 
     // Prevent packet-injection for re-taking completed records which aren't marked repeatable.
     if (roeutils::GetEminenceRecordCompletion(PChar, recordID) && !roeutils::RoeSystem.RepeatableRecords.test(recordID))
+        return false;
+    // Deny packet-injection from taking timed records as normal ones.
+    if (roeutils::RoeSystem.TimedRecords.test(recordID))
         return false;
 
     // Per above, this i < 30 is correct.
@@ -278,7 +287,7 @@ bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID)
 
 bool DelEminenceRecord(CCharEntity* PChar, uint16 recordID)
 {
-    for (int i = 0; i < 31; i++)
+    for (int i = 0; i < 30; i++)
     {
         if (PChar->m_eminenceLog.active[i] == recordID)
         {
@@ -366,30 +375,71 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_hour = t->tm_hour & 0xFC;
         t->tm_min = 0;
         t->tm_sec = 0;
-        auto lastJstBlock = timegm(t) - JST_OFFSET;
-        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\n", lastOnline, lastJstBlock, lastOnline < lastJstBlock ? "True" : "False");
+        auto lastJstTimedBlock = timegm(t) - JST_OFFSET;
+        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\n", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False");
+        if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
+            SetActiveTimedRecord(PChar);
     }
+}
 
+uint16 GetActiveTimedRecord()
+{
+    uint8 day = static_cast<uint8>(CVanaTime::getInstance()->getJstWeekDay());
+    uint8 block = static_cast<uint8>(CVanaTime::getInstance()->getJstHour() / 4);
+    return RoeSystem.TimedRecordTable[day][block];
+}
+
+void SetActiveTimedRecord(CCharEntity* PChar)
+{
+    // Clear old timed entries from log
+    PChar->m_eminenceLog.progress[30] = 0;
+    PChar->m_eminenceCache.activemap &= RoeSystem.TimedRecords.flip();
+
+    // Add current timed record to slot 31
+    auto timedRecordID = GetActiveTimedRecord();
+    PChar->m_eminenceLog.active[30] = timedRecordID;
+    PChar->m_eminenceCache.activemap.set(timedRecordID);
+    PChar->pushPacket(new CRoeUpdatePacket(PChar));
+
+    SetEminenceRecordCompletion(PChar, timedRecordID, false);
 }
 
 void ClearDailyRecords(CCharEntity* PChar)
 {
-    // Player has no daily records
-    if ((PChar->m_eminenceCache.activemap & roeutils::RoeCache.DailyRecords).none())
-        return;
-
+    // Set daily record progress to 0
     for(int i = 0; i < 30 && PChar->m_eminenceLog.active[i] != 0; i++)
     {
-        if (auto recordID = PChar->m_eminenceLog.active[i]; roeutils::RoeCache.DailyRecords.test(recordID))
+        if (auto recordID = PChar->m_eminenceLog.active[i]; RoeSystem.DailyRecords.test(recordID))
         {
             PChar->m_eminenceLog.progress[i] = 0;
-            roeutils::SetEminenceRecordCompletion(PChar, recordID, false);
         }
     }
     PChar->pushPacket(new CRoeUpdatePacket(PChar));
+
+    // Set completion for daily records to 0
+    for (auto record : RoeSystem.DailyRecordIDs)
+    {
+        uint16 page = record / 8;
+        uint8 bit = record % 8;
+        PChar->m_eminenceLog.complete[page] &= ~(1 << bit);
+    }
+    charutils::SaveEminenceData(PChar);
+
+    for (int i = 0; i < 4; i++)
+        PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
 }
 
-bool UpdateDailyRecords()
+bool CycleTimedRecords()
+{
+    zoneutils::ForEachZone([](CZone* PZone){
+        PZone->ForEachChar([](CCharEntity* PChar){
+            SetActiveTimedRecord(PChar);
+        });
+    });
+    return true;
+}
+
+bool CycleDailyRecords()
 {
     zoneutils::ForEachZone([](CZone* PZone){
         PZone->ForEachChar([](CCharEntity* PChar){

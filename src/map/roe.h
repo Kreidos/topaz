@@ -50,12 +50,17 @@ enum ROE_EVENT
     ROE_NONE // End of enum marker and OOB checkpost. Do not move or remove, place any new types above.
 };
 
+typedef std::array<uint16, 6> TimedRecordMatrix_D;
+typedef std::array<TimedRecordMatrix_D, 7> TimedRecordMatrix_W;
 struct RoeSystemData
 {
     bool RoeEnabled;
+    TimedRecordMatrix_W TimedRecordTable;
     std::bitset<4096> ImplementedRecords;
     std::bitset<4096> RepeatableRecords;
     std::bitset<4096> DailyRecords;
+    std::vector<uint16> DailyRecordIDs;
+    std::bitset<4096> TimedRecords;
     std::array<uint32, 4096> NotifyThresholds;
 };
 
@@ -100,25 +105,31 @@ namespace roeutils
 {
 extern RoeSystemData RoeSystem;
 
-void init();
-int32 RegisterHandler(lua_State* L);
-int32 ParseRecords(lua_State* L);
+void   init();
+int32  RegisterHandler(lua_State* L);
+int32  ParseRecords(lua_State* L);
 
-bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
-bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
-bool event(ROE_EVENT eventID, CCharEntity* PChar);
+bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
+bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
+bool   event(ROE_EVENT eventID, CCharEntity* PChar);
 
-void SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
-bool GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID);
-bool AddEminenceRecord(CCharEntity* PChar, uint16 recordID);
-bool DelEminenceRecord(CCharEntity* PChar, uint16 recordID);
-bool HasEminenceRecord(CCharEntity* PChar, uint16 recordID);
-bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress);
+void   SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
+bool   GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID);
+bool   AddEminenceRecord(CCharEntity* PChar, uint16 recordID);
+bool   DelEminenceRecord(CCharEntity* PChar, uint16 recordID);
+bool   HasEminenceRecord(CCharEntity* PChar, uint16 recordID);
+bool   SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progress);
 uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID);
 
-void onCharLoad(CCharEntity* PChar);
-void ClearDailyRecords(CCharEntity* PChar);
-bool UpdateDailyRecords();
+void   onCharLoad(CCharEntity* PChar);
+
+void   ClearDailyRecords(CCharEntity* PChar);
+bool   CycleDailyRecords();
+
+uint16 GetActiveTimedRecord();
+void   SetActiveTimedRecord(CCharEntity* PChar);
+bool   CycleTimedRecords();
+
 
 } /* namespace roe */
 
