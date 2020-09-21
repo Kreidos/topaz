@@ -150,6 +150,17 @@ tpz.roe.completeRecord = tpz.roe.onRecordTrigger
 -- All implemented records must have their entries in this table.
 -- Records not in this table can't be taken.
 
+tpz.roe.timedSchedule = {
+   -- 4-hour timeslots (6 per day) starting at JST midnight
+    {    0,    0,    0,    0,    0,    0}, -- Sunday
+    {    0,    0,    0,    0, 4019,    0}, -- Monday
+    {    0,    0,    0,    0,    0,    0}, -- Tuesday
+    {    0,    0,    0,    0,    0,    0}, -- Wednesday
+    {    0,    0,    0,    0,    0,    0}, -- Thursdsay
+    {    0,    0,    0,    0,    0,    0}, -- Friday
+    {    0,    0,    0,    0,    0,    0}, -- Saturday
+}
+
 tpz.roe.records =
 {
 
@@ -2035,7 +2046,6 @@ tpz.roe.records =
         reqs = { itemID = set{} },
         reward = { sparks = 100, repeatable = true},
     },
-
 }
 
  -- Apply defaults for records
@@ -2051,3 +2061,6 @@ end
 -- Build global map of implemented records.
 -- This is used to deny taking records which aren't implemented in the above table.
 RoeParseRecords(tpz.roe.records)
+
+-- Load timetable for timed records
+RoeParseTimed(tpz.roe.timedSchedule)

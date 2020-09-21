@@ -48,6 +48,7 @@ void init()
     lua_pop(L, 1);
     lua_register(L, "RoeRegisterHandler", roeutils::RegisterHandler);
     lua_register(L, "RoeParseRecords", roeutils::ParseRecords);
+    lua_register(L, "RoeParseTimed", roeutils::ParseTimed);
     RoeHandlers.fill(RoeCheckHandler());
 }
 
@@ -98,6 +99,7 @@ int32 ParseRecords(lua_State* L)
     roeutils::RoeSystem.DailyRecords.reset();
     roeutils::RoeSystem.DailyRecordIDs.clear();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
+    roeutils::RoeSystem.TimedRecords.reset();
     roeutils::RoeSystem.TimedRecordTable.fill(TimedRecordMatrix_D{});
 
     // Build caching bitsets from records
@@ -121,13 +123,6 @@ int32 ParseRecords(lua_State* L)
             roeutils::RoeSystem.DailyRecords.set(recordID);
             roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
         }
-        else if (lua_isnumber(L, -1))
-        {
-            auto timeslot = lua_tointeger(L, -1) % 42;
-            uint8 day = static_cast<uint8>(timeslot / 6);
-            uint8 block = static_cast<uint8>(timeslot % 6);
-            roeutils::RoeSystem.TimedRecordTable[day][block] = recordID;
-        }
         lua_pop(L, 1);
 
         // Set repeatability bit
@@ -146,6 +141,30 @@ int32 ParseRecords(lua_State* L)
         lua_pop(L, 1); // Pops record entry to prep next loop
     }
     // ShowInfo("\nRoEUtils: %d record entries parsed & available.", RoeBitmaps.ImplementedRecords.count());
+    return 0;
+}
+
+int32 ParseTimed(lua_State* L)
+{
+    if (lua_isnil(L, -1) || !lua_istable(L, -1))
+            return 0;
+
+    lua_pushnil(L);
+    while (lua_next(L, -2) != 0)
+    {
+        uint8 day = static_cast<uint8>(lua_tointeger(L, -2)-1);
+
+        lua_pushnil(L);
+        while (lua_next(L, -2) != 0)
+        {
+            auto block = lua_tointeger(L, -2)-1;
+            uint16 recordID = static_cast<uint16>(lua_tointeger(L, -1));
+            roeutils::RoeSystem.TimedRecordTable[day][block] = recordID;
+            lua_pop(L, 1);
+        }
+
+        lua_pop(L, 1);
+    }
     return 0;
 }
 

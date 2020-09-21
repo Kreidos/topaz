@@ -108,6 +108,7 @@ extern RoeSystemData RoeSystem;
 void   init();
 int32  RegisterHandler(lua_State* L);
 int32  ParseRecords(lua_State* L);
+int32  ParseTimed(lua_State* L);
 
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
