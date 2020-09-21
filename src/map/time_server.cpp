@@ -100,7 +100,7 @@ int32 time_server(time_point tick,CTaskMgr::CTask* PTask)
     {
         if (tick > (lastTickedRoeBlock + 1h))
         {
-            // roeutils::CycleTimedRecords();
+            roeutils::CycleTimedRecords();
             lastTickedRoeBlock = tick;
         }
     }

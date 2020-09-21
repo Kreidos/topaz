@@ -115,11 +115,18 @@ int32 ParseRecords(lua_State* L)
         lua_pop(L, 1);
 
         // Set time flags
-        lua_getfield(L, -1, "timeFlag");
+        lua_getfield(L, -1, "timeslot");
         if (lua_isstring(L, -1) && std::string(lua_tostring(L, -1)) == "daily")
         {
             roeutils::RoeSystem.DailyRecords.set(recordID);
             roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
+        }
+        else if (lua_isnumber(L, -1))
+        {
+            auto timeslot = lua_tointeger(L, -1) % 42;
+            uint8 day = static_cast<uint8>(timeslot / 6);
+            uint8 block = static_cast<uint8>(timeslot % 6);
+            roeutils::RoeSystem.TimedRecordTable[day][block] = recordID;
         }
         lua_pop(L, 1);
 
@@ -136,7 +143,7 @@ int32 ParseRecords(lua_State* L)
         }
         lua_pop(L, 1);
 
-        lua_pop(L, 1);
+        lua_pop(L, 1); // Pops record entry to prep next loop
     }
     // ShowInfo("\nRoEUtils: %d record entries parsed & available.", RoeBitmaps.ImplementedRecords.count());
     return 0;
@@ -376,7 +383,7 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_min = 0;
         t->tm_sec = 0;
         auto lastJstTimedBlock = timegm(t) - JST_OFFSET;
-        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\n", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False");
+        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\nROEUTILS: 4HR record = %d", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False", GetActiveTimedRecord());
         if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
             SetActiveTimedRecord(PChar);
     }
@@ -386,6 +393,7 @@ uint16 GetActiveTimedRecord()
 {
     uint8 day = static_cast<uint8>(CVanaTime::getInstance()->getJstWeekDay());
     uint8 block = static_cast<uint8>(CVanaTime::getInstance()->getJstHour() / 4);
+    ShowDebug("\nRoeUtils::GetTimed = %d - %d \n", day, block);
     return RoeSystem.TimedRecordTable[day][block];
 }
 

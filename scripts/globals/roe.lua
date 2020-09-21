@@ -2018,9 +2018,22 @@ tpz.roe.records =
     [4082] = { -- Vanquish Multiple Enemies (D)
         trigger = triggers.mobKill,
         goal = 30,
-        timeFlag = "daily",
+        timeslot = "daily",
         reqs = { mobXP = true },
         reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 }, repeatable = true },
+    },
+
+
+  ----------------------------------------
+  -- Timed Records - No Category        --
+  ----------------------------------------
+
+    [4014] = {   -- Spoils (Seals)
+        trigger = triggers.itemLooted,
+        goal = 3,
+        timeslot = 9,
+        reqs = { itemID = set{} },
+        reward = { sparks = 100, repeatable = true},
     },
 
 }
