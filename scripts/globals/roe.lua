@@ -153,7 +153,7 @@ tpz.roe.timedSchedule = {
    -- 4-hour timeslots (6 per day) starting at JST midnight
     {    0,    0,    0,    0,    0, 4013}, -- Sunday
     {    0,    0,    0,    0,    0,    0}, -- Monday
-    {    0,    0, 4013, 4013,    0,    0}, -- Tuesday
+    {    0,    0,    0, 4013,    0,    0}, -- Tuesday
     {    0,    0,    0,    0,    0,    0}, -- Wednesday
     {    0, 4013,    0,    0,    0,    0}, -- Thursdsay
     {    0,    0,    0,    0,    0,    0}, -- Friday
