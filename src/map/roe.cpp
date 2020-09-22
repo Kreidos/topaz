@@ -84,7 +84,7 @@ int32 RegisterHandler(lua_State* L)
             RoeHandlers[event].bitmap.set(recordID);
     }
 
-    //        ShowDebug("\nRegistered RoE Handler %d... ", evtype);
+//    ShowDebug("\nRegistered RoE Handler %d... ", event);
 
     return 0;
 }
@@ -185,7 +185,7 @@ bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload)
     lua_getfield(L, -1, "roe");
 
     // Call onRecordTrigger for each record of this type
-    for (int i = 0; PChar->m_eminenceLog.active[i] != 0; i++)
+    for (int i = 0; i < 31; i++)
     {
         // Check record is of this type
         if (handler.bitmap.test(PChar->m_eminenceLog.active[i]))
@@ -391,7 +391,7 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_min = 0;
         t->tm_sec = 0;
         auto lastJstMidnight = timegm(t) - JST_OFFSET;
-        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstmidnight(%d) Reset daily = %s\n", lastOnline, lastJstMidnight, lastOnline < lastJstMidnight ? "True" : "False");
+//        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstmidnight(%d) Reset daily = %s\n", lastOnline, lastJstMidnight, lastOnline < lastJstMidnight ? "True" : "False");
         if (lastOnline < lastJstMidnight)
             ClearDailyRecords(PChar);
     }
@@ -402,7 +402,7 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_min = 0;
         t->tm_sec = 0;
         auto lastJstTimedBlock = timegm(t) - JST_OFFSET;
-        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\nROEUTILS: 4HR record = %d", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False", GetActiveTimedRecord());
+//        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\nROEUTILS: 4HR record = %d", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False", GetActiveTimedRecord());
         if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
             SetActiveTimedRecord(PChar);
     }
@@ -412,7 +412,6 @@ uint16 GetActiveTimedRecord()
 {
     uint8 day = static_cast<uint8>(CVanaTime::getInstance()->getJstWeekDay());
     uint8 block = static_cast<uint8>(CVanaTime::getInstance()->getJstHour() / 4);
-    ShowDebug("\nRoeUtils::GetTimed = %d - %d \n", day, block);
     return RoeSystem.TimedRecordTable[day][block];
 }
 

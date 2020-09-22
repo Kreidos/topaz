@@ -148,19 +148,20 @@ end
 tpz.roe.completeRecord = tpz.roe.onRecordTrigger
 
 
--- All implemented records must have their entries in this table.
--- Records not in this table can't be taken.
-
+-- Schedule for Timed Records.
 tpz.roe.timedSchedule = {
    -- 4-hour timeslots (6 per day) starting at JST midnight
     {    0,    0,    0,    0,    0, 4013}, -- Sunday
     {    0,    0,    0,    0,    0,    0}, -- Monday
-    {    0,    0,    0, 4013,    0,    0}, -- Tuesday
+    {    0,    0, 4013, 4013,    0,    0}, -- Tuesday
     {    0,    0,    0,    0,    0,    0}, -- Wednesday
     {    0, 4013,    0,    0,    0,    0}, -- Thursdsay
     {    0,    0,    0,    0,    0,    0}, -- Friday
     {    0,    0,    0,    0,    0,    0}, -- Saturday
 }
+
+-- All implemented records must have their entries in this table.
+-- Records not in this table can't be taken.
 
 tpz.roe.records =
 {
@@ -2044,7 +2045,6 @@ tpz.roe.records =
         trigger = triggers.expGain,
         goal = 5000,
         increment = 0,
-        reqs = { mobXP = true },
         reward = { sparks = 300, xp = 1500, unity = 300, item = { 8711 }, repeatable = true },
         check = function(self, player, params)
                 if params.exp and params.exp > 0 then

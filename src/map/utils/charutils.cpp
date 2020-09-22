@@ -3726,7 +3726,8 @@ namespace charutils
         {
             //add normal exp
             PChar->jobs.exp[PChar->GetMJob()] += exp;
-            roeutils::event(ROE_EXPGAIN, PChar, RoeDatagram("exp", exp));
+            if (PMob != PChar) // Only mob kills count for gain EXP records
+                roeutils::event(ROE_EXPGAIN, PChar, RoeDatagram("exp", exp));
         }
 
         if (!expFromRaise)
