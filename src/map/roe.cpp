@@ -375,9 +375,7 @@ void onCharLoad(CCharEntity* PChar)
     }
 
     // Time gets messy, avert your eyes.
-    const int JST_OFFSET = 32400;
-    auto now = time(nullptr);
-    auto jstnow = now + JST_OFFSET;
+    auto jstnow = time(nullptr) + JST_OFFSET;
     auto lastOnline = PChar->m_eminenceCache.lastOnline;
 
     {   // Daily Reset
@@ -386,7 +384,7 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_min = 0;
         t->tm_sec = 0;
         auto lastJstMidnight = timegm(t) - JST_OFFSET;
-//        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstmidnight(%d) Reset daily = %s\n", lastOnline, lastJstMidnight, lastOnline < lastJstMidnight ? "True" : "False");
+
         if (lastOnline < lastJstMidnight)
             ClearDailyRecords(PChar);
     }
@@ -397,7 +395,7 @@ void onCharLoad(CCharEntity* PChar)
         t->tm_min = 0;
         t->tm_sec = 0;
         auto lastJstTimedBlock = timegm(t) - JST_OFFSET;
-//        ShowInfo("\nROEUTILS: Offline Char coming online: seen(%d) jstblock(%d) Reset 4hr = %s\nROEUTILS: 4HR record = %d", lastOnline, lastJstTimedBlock, lastOnline < lastJstTimedBlock ? "True" : "False", GetActiveTimedRecord());
+
         if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
             SetActiveTimedRecord(PChar);
     }
