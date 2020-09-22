@@ -3726,6 +3726,7 @@ namespace charutils
         {
             //add normal exp
             PChar->jobs.exp[PChar->GetMJob()] += exp;
+            roeutils::event(ROE_EXPGAIN, PChar, RoeDatagram("exp", exp));
         }
 
         if (!expFromRaise)

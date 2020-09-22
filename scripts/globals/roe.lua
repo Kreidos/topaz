@@ -14,6 +14,7 @@ tpz.roe.triggers =
     synthSuccess = 4,   -- Player synth success
     dmgTaken = 5,       -- Player takes Damage
     dmgDealt = 6,       -- Player deals Damage
+    expGain = 7,        -- Player gains EXP
 }
 local triggers = tpz.roe.triggers
 
@@ -152,11 +153,11 @@ tpz.roe.completeRecord = tpz.roe.onRecordTrigger
 
 tpz.roe.timedSchedule = {
    -- 4-hour timeslots (6 per day) starting at JST midnight
-    {    0,    0,    0,    0,    0,    0}, -- Sunday
-    {    0,    0,    0,    0, 4019,    0}, -- Monday
-    {    0,    0,    0,    0,    0,    0}, -- Tuesday
+    {    0,    0,    0,    0,    0, 4013}, -- Sunday
+    {    0,    0,    0,    0,    0,    0}, -- Monday
+    {    0,    0,    0, 4013,    0,    0}, -- Tuesday
     {    0,    0,    0,    0,    0,    0}, -- Wednesday
-    {    0,    0,    0,    0,    0,    0}, -- Thursdsay
+    {    0, 4013,    0,    0,    0,    0}, -- Thursdsay
     {    0,    0,    0,    0,    0,    0}, -- Friday
     {    0,    0,    0,    0,    0,    0}, -- Saturday
 }
@@ -2031,7 +2032,7 @@ tpz.roe.records =
         goal = 30,
         timeslot = "daily",
         reqs = { mobXP = true },
-        reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 }, repeatable = true },
+        reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 } },
     },
 
 
@@ -2039,10 +2040,24 @@ tpz.roe.records =
   -- Timed Records - No Category        --
   ----------------------------------------
 
+    [4013] = { -- Gain Experience
+        trigger = triggers.expGain,
+        goal = 5000,
+        increment = 0,
+        reqs = { mobXP = true },
+        reward = { sparks = 300, xp = 1500, unity = 300, item = { 8711 }, repeatable = true },
+        check = function(self, player, params)
+                if params.exp and params.exp > 0 then
+                    params.progress = params.progress + params.exp
+                    return true
+                end
+                return false
+            end,
+    },
+
     [4014] = {   -- Spoils (Seals)
         trigger = triggers.itemLooted,
         goal = 3,
-        timeslot = 9,
         reqs = { itemID = set{} },
         reward = { sparks = 100, repeatable = true},
     },

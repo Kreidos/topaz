@@ -47,6 +47,7 @@ enum ROE_EVENT
     ROE_SYNTHSUCCESS = 4,
     ROE_DMGTAKEN = 5,
     ROE_DMGDEALT = 6,
+    ROE_EXPGAIN = 7,
     ROE_NONE // End of enum marker and OOB checkpost. Do not move or remove, place any new types above.
 };
 
