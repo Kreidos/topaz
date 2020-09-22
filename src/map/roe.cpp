@@ -244,11 +244,6 @@ bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram data) // shorthand
     return event(eventID, PChar, RoeDatagramList { data });
 }
 
-bool event(ROE_EVENT eventID, CCharEntity* PChar) // shorthand for no-datagram calls.
-{
-    return event(eventID, PChar, RoeDatagramList {});
-}
-
 void SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus)
 {
     uint16 page = recordID / 8;

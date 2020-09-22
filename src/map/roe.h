@@ -113,7 +113,6 @@ int32  ParseTimed(lua_State* L);
 
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
-bool   event(ROE_EVENT eventID, CCharEntity* PChar);
 
 void   SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
 bool   GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID);
