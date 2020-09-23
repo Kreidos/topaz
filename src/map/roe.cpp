@@ -412,7 +412,7 @@ void SetActiveTimedRecord(CCharEntity* PChar)
 {
     // Clear old timed entries from log
     PChar->m_eminenceLog.progress[30] = 0;
-    PChar->m_eminenceCache.activemap &= RoeSystem.TimedRecords.flip();
+    PChar->m_eminenceCache.activemap &= ~RoeSystem.TimedRecords;
 
     // Add current timed record to slot 31
     auto timedRecordID = GetActiveTimedRecord();
