@@ -221,6 +221,7 @@ struct eminencecache_t
 {
     std::bitset<4096> activemap;
     uint32 lastOnline {0};
+    uint32 lastWriteout {0};
 };
 
 struct nameflags_t

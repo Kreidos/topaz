@@ -35,6 +35,8 @@
 #include "packets/roe_sparkupdate.h"
 #include "packets/roe_update.h"
 
+#define ROE_CACHETIME 15
+
 std::array<RoeCheckHandler, ROE_NONE> RoeHandlers;
 RoeSystemData roeutils::RoeSystem;
 
@@ -357,7 +359,7 @@ bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progr
 
             PChar->m_eminenceLog.progress[i] = progress;
             PChar->pushPacket(new CRoeUpdatePacket(PChar));
-            charutils::SaveEminenceData(PChar);
+            roeutils::SaveEminenceDataNice(PChar);
             return true;
         }
     }
@@ -379,22 +381,22 @@ void onCharLoad(CCharEntity* PChar)
     auto lastOnline = PChar->m_eminenceCache.lastOnline;
 
     {   // Daily Reset
-        auto* t = gmtime(&jstnow);
-        t->tm_hour = 0;
-        t->tm_min = 0;
-        t->tm_sec = 0;
-        auto lastJstMidnight = timegm(t) - JST_OFFSET;
+        auto* jst = gmtime(&jstnow);
+        jst->tm_hour = 0;
+        jst->tm_min = 0;
+        jst->tm_sec = 0;
+        auto lastJstMidnight = timegm(jst) - JST_OFFSET;     // Unix timestamp of the last JST midnight
 
         if (lastOnline < lastJstMidnight)
             ClearDailyRecords(PChar);
     }
 
     {   // 4hr Reset
-        auto* t = gmtime(&jstnow);
-        t->tm_hour = t->tm_hour & 0xFC;
-        t->tm_min = 0;
-        t->tm_sec = 0;
-        auto lastJstTimedBlock = timegm(t) - JST_OFFSET;
+        auto* jst = gmtime(&jstnow);
+        jst->tm_hour = jst->tm_hour & 0xFC;
+        jst->tm_min = 0;
+        jst->tm_sec = 0;
+        auto lastJstTimedBlock = timegm(jst) - JST_OFFSET;   // Unix timestamp of the start of the current 4-hr block
 
         if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
             SetActiveTimedRecord(PChar);
@@ -442,6 +444,7 @@ void ClearDailyRecords(CCharEntity* PChar)
         uint8 bit = record % 8;
         PChar->m_eminenceLog.complete[page] &= ~(1 << bit);
     }
+
     charutils::SaveEminenceData(PChar);
 
     for (int i = 0; i < 4; i++)
@@ -466,6 +469,16 @@ bool CycleDailyRecords()
         });
     });
     return true;
+}
+
+bool SaveEminenceDataNice(CCharEntity* PChar)
+{
+    if (PChar->m_eminenceCache.lastWriteout < time(nullptr) - ROE_CACHETIME)
+    {
+        charutils::SaveEminenceData(PChar);
+        return true;
+    }
+    return false;
 }
 
 } /* namespace roe */

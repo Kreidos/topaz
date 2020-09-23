@@ -131,6 +131,7 @@ uint16 GetActiveTimedRecord();
 void   SetActiveTimedRecord(CCharEntity* PChar);
 bool   CycleTimedRecords();
 
+bool SaveEminenceDataNice(CCharEntity* PChar);
 
 } /* namespace roe */
 
