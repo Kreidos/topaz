@@ -40,6 +40,12 @@
 std::array<RoeCheckHandler, ROE_NONE> RoeHandlers;
 RoeSystemData roeutils::RoeSystem;
 
+void SaveEminenceDataNice(CCharEntity* PChar)
+{
+    if (PChar->m_eminenceCache.lastWriteout < time(nullptr) - ROE_CACHETIME)
+        charutils::SaveEminenceData(PChar);
+}
+
 namespace roeutils
 {
 void init()
@@ -50,7 +56,7 @@ void init()
     lua_pop(L, 1);
     lua_register(L, "RoeRegisterHandler", roeutils::RegisterHandler);
     lua_register(L, "RoeParseRecords", roeutils::ParseRecords);
-    lua_register(L, "RoeParseTimed", roeutils::ParseTimed);
+    lua_register(L, "RoeParseTimed", roeutils::ParseTimedSchedule);
     RoeHandlers.fill(RoeCheckHandler());
 }
 
@@ -146,7 +152,7 @@ int32 ParseRecords(lua_State* L)
     return 0;
 }
 
-int32 ParseTimed(lua_State* L)
+int32 ParseTimedSchedule(lua_State* L)
 {
     if (lua_isnil(L, -1) || !lua_istable(L, -1))
             return 0;
@@ -359,7 +365,7 @@ bool SetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID, uint32 progr
 
             PChar->m_eminenceLog.progress[i] = progress;
             PChar->pushPacket(new CRoeUpdatePacket(PChar));
-            roeutils::SaveEminenceDataNice(PChar);
+            SaveEminenceDataNice(PChar);
             return true;
         }
     }
@@ -471,14 +477,6 @@ bool CycleDailyRecords()
     return true;
 }
 
-bool SaveEminenceDataNice(CCharEntity* PChar)
-{
-    if (PChar->m_eminenceCache.lastWriteout < time(nullptr) - ROE_CACHETIME)
-    {
-        charutils::SaveEminenceData(PChar);
-        return true;
-    }
-    return false;
-}
 
 } /* namespace roe */
+

@@ -4027,7 +4027,7 @@ namespace charutils
         Sql_EscapeStringLen(SqlHandle, eminenceList, (const char*)&PChar->m_eminenceLog, sizeof(PChar->m_eminenceLog));
 
         Sql_Query(SqlHandle, Query, eminenceList, PChar->id);
-        PChar->m_eminenceCache.lastWriteout = time(nullptr);
+        PChar->m_eminenceCache.lastWriteout = static_cast<uint32>(time(nullptr));
     }
 
     /************************************************************************

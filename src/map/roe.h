@@ -109,7 +109,7 @@ extern RoeSystemData RoeSystem;
 void   init();
 int32  RegisterHandler(lua_State* L);
 int32  ParseRecords(lua_State* L);
-int32  ParseTimed(lua_State* L);
+int32  ParseTimedSchedule(lua_State* L);
 
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
 bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
@@ -130,8 +130,6 @@ bool   CycleDailyRecords();
 uint16 GetActiveTimedRecord();
 void   SetActiveTimedRecord(CCharEntity* PChar);
 bool   CycleTimedRecords();
-
-bool SaveEminenceDataNice(CCharEntity* PChar);
 
 } /* namespace roe */
 
