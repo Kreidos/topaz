@@ -37,8 +37,17 @@ checks.mobID = function(self, player, params)    -- Mob ID check
     return (params.mob and self.reqs.mobID[params.mob:getID()]) and true or false
 end
 
-checks.mobXP = function(self, player, params)  -- Mob yields xp
+checks.mobXP = function(self, player, params)    -- Mob yields xp
      return (params.mob and player:checkKillCredit(params.mob)) and true or false
+end
+
+checks.mobFamily = function(self, player, params)   -- Mob family is 
+    return (params.mob and self.reqs.mobFamily[params.mob:getFamily()]) and true or false
+end
+
+checks.mobSystem = function(self, player, params)   -- Mob system is 
+    print("Checking mob family: " .. params.mob:getSystem() .. " = " .. (self.reqs.mobSystem[params.mob:getSystem()] and "True" or "False"))
+    return (params.mob and self.reqs.mobSystem[params.mob:getSystem()]) and true or false
 end
 
 checks.dmgMin = function(self, player, params)  -- Minimum Dmg Dealt/Taken
@@ -153,12 +162,12 @@ tpz.roe.timedSchedule = {
 -- 4-hour timeslots (6 per day) all days/times are in JST
 --    00-04  04-08  08-12  12-16  16-20  20-00
     {     0,     0,     0,     0,     0,  4013}, -- Sunday
-    {     0,     0,     0,  4014,     0,     0}, -- Monday
+    {     0,     0,  4017,  4014,     0,     0}, -- Monday
     {     0,     0,     0,  4013,     0,     0}, -- Tuesday
-    {     0,  4014,     0,     0,     0,     0}, -- Wednesday
+    {  4017,  4014,     0,     0,     0,     0}, -- Wednesday
     {     0,  4013,     0,     0,     0,     0}, -- Thursdsay
     {     0,     0,     0,     0,     0,     0}, -- Friday
-    {     0,     0,     0,     0,     0,  4014}, -- Saturday
+    {     0,     0,     0,     0,  4017,  4014}, -- Saturday
 }
 
 -- All implemented records must have their entries in this table.
@@ -2060,6 +2069,13 @@ tpz.roe.records =
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 1126, 1127, 2955, 2956, 2957 } },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+    },
+
+    [4017] = {   -- Vanquish Undead (TODO: No abyssea when exists)
+        trigger = triggers.mobKill,
+        goal = 20,
+        reqs = { mobXP = true, mobSystem = set{ 19 } },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 }
