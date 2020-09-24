@@ -150,14 +150,15 @@ tpz.roe.completeRecord = tpz.roe.onRecordTrigger
 
 -- Schedule for Timed Records.
 tpz.roe.timedSchedule = {
-   -- 4-hour timeslots (6 per day) starting at JST midnight
-    {    0,    0,    0,    0,    0, 4013}, -- Sunday
-    {    0,    0,    0,    0,    0,    0}, -- Monday
-    {    0,    0,    0, 4013,    0,    0}, -- Tuesday
-    {    0,    0,    0,    0,    0,    0}, -- Wednesday
-    {    0, 4013,    0,    0,    0,    0}, -- Thursdsay
-    {    0,    0,    0,    0,    0,    0}, -- Friday
-    {    0,    0,    0,    0,    0,    0}, -- Saturday
+-- 4-hour timeslots (6 per day) all days/times are in JST
+--    00-04  04-08  08-12  12-16  16-20  20-00
+    {     0,     0,     0,     0,     0,  4013}, -- Sunday
+    {     0,     0,     0,  4014,     0,     0}, -- Monday
+    {     0,     0,     0,  4013,     0,     0}, -- Tuesday
+    {     0,  4014,     0,     0,     0,     0}, -- Wednesday
+    {     0,  4013,     0,     0,     0,     0}, -- Thursdsay
+    {     0,     0,     0,     0,     0,     0}, -- Friday
+    {     0,     0,     0,     0,     0,  4014}, -- Saturday
 }
 
 -- All implemented records must have their entries in this table.
@@ -2058,8 +2059,8 @@ tpz.roe.records =
     [4014] = {   -- Spoils (Seals)
         trigger = triggers.itemLooted,
         goal = 3,
-        reqs = { itemID = set{} },
-        reward = { sparks = 100, repeatable = true},
+        reqs = { itemID = set{ 1126, 1127, 2955, 2956, 2957 } },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 }
 
