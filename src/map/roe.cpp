@@ -266,7 +266,6 @@ void SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newSt
         PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
     }
     charutils::SaveEminenceData(PChar);
-
 }
 
 bool GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID)
@@ -457,24 +456,22 @@ void ClearDailyRecords(CCharEntity* PChar)
         PChar->pushPacket(new CRoeQuestLogPacket(PChar, i));
 }
 
-bool CycleTimedRecords()
+void CycleTimedRecords()
 {
     zoneutils::ForEachZone([](CZone* PZone){
         PZone->ForEachChar([](CCharEntity* PChar){
             SetActiveTimedRecord(PChar);
         });
     });
-    return true;
 }
 
-bool CycleDailyRecords()
+void CycleDailyRecords()
 {
     zoneutils::ForEachZone([](CZone* PZone){
         PZone->ForEachChar([](CCharEntity* PChar){
             ClearDailyRecords(PChar);
         });
     });
-    return true;
 }
 
 

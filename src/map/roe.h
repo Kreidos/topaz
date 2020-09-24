@@ -125,11 +125,11 @@ uint32 GetEminenceRecordProgress(CCharEntity* PChar, uint16 recordID);
 void   onCharLoad(CCharEntity* PChar);
 
 void   ClearDailyRecords(CCharEntity* PChar);
-bool   CycleDailyRecords();
+void   CycleDailyRecords();
 
 uint16 GetActiveTimedRecord();
 void   SetActiveTimedRecord(CCharEntity* PChar);
-bool   CycleTimedRecords();
+void   CycleTimedRecords();
 
 } /* namespace roe */
 
