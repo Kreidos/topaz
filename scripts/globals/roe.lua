@@ -161,13 +161,13 @@ tpz.roe.completeRecord = tpz.roe.onRecordTrigger
 tpz.roe.timedSchedule = {
 -- 4-hour timeslots (6 per day) all days/times are in JST
 --    00-04  04-08  08-12  12-16  16-20  20-00
-    {     0,     0,     0,     0,     0,  4013}, -- Sunday
-    {     0,     0,  4017,  4014,     0,     0}, -- Monday
-    {     0,     0,     0,  4013,     0,     0}, -- Tuesday
+    {     0,     0,  4016,     0,  4018,  4013}, -- Sunday
+    {  4015,     0,  4017,  4014,     0,     0}, -- Monday
+    {  4016,     0,  4018,  4013,     0,     0}, -- Tuesday
     {  4017,  4014,     0,     0,     0,     0}, -- Wednesday
-    {     0,  4013,     0,     0,     0,     0}, -- Thursdsay
-    {     0,     0,     0,     0,     0,     0}, -- Friday
-    {     0,     0,     0,     0,  4017,  4014}, -- Saturday
+    {  4018,  4013,     0,     0,  4015,     0}, -- Thursdsay
+    {     0,     0,     0,     0,  4016,     0}, -- Friday
+    {     0,     0,  4015,     0,  4017,  4014}, -- Saturday
 }
 
 -- All implemented records must have their entries in this table.
@@ -2072,10 +2072,31 @@ tpz.roe.records =
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
-    [4017] = {   -- Vanquish Undead (TODO: No abyssea when exists)
+    [4015] = {   -- Vanquish Birds (TODO: No abyssea zone kills for vanquishes when exists)
+        trigger = triggers.mobKill,
+        goal = 20,
+        reqs = { mobXP = true, mobSystem = set{ 8 } },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+    },
+
+    [4016] = {   -- Vanquish Amorphs
+        trigger = triggers.mobKill,
+        goal = 20,
+        reqs = { mobXP = true, mobSystem = set{ 1 } },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+    },
+
+    [4017] = {   -- Vanquish Undead
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{ 19 } },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+    },
+
+    [4018] = {   -- Vanquish Arcana
+        trigger = triggers.mobKill,
+        goal = 20,
+        reqs = { mobXP = true, mobSystem = set{ 3 } },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 }
