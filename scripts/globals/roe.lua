@@ -161,11 +161,11 @@ tpz.roe.timedSchedule = {
 -- 4-hour timeslots (6 per day) all days/times are in JST
 --    00-04  04-08  08-12  12-16  16-20  20-00
     {     0,  4010,  4016,  4012,  4018,  4013}, -- Sunday
-    {  4015,  4011,  4017,  4014,  4019,     0}, -- Monday
+    {  4015,  4011,  4017,  4014,  4019,  4008}, -- Monday
     {  4016,  4012,  4018,  4013,     0,  4009}, -- Tuesday
-    {  4017,  4014,  4019,     0,     0,  4010}, -- Wednesday
+    {  4017,  4014,  4019,  4008,     0,  4010}, -- Wednesday
     {  4018,  4013,     0,  4009,  4015,  4011}, -- Thursdsay
-    {  4019,     0,     0,  4010,  4016,  4012}, -- Friday
+    {  4019,  4008,     0,  4010,  4016,  4012}, -- Friday
     {     0,  4009,  4015,  4011,  4017,  4014}, -- Saturday
 }
 
@@ -2049,6 +2049,13 @@ tpz.roe.records =
   ----------------------------------------
   -- Timed Records - No Category        --
   ----------------------------------------
+
+    [4008] = {   -- Vanquish Aquans
+        trigger = triggers.mobKill,
+        goal = 20,
+        reqs = { mobXP = true, mobSystem = set{2} },
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+    },
 
     [4009] = {   -- Vanquish Beasts
         trigger = triggers.mobKill,
