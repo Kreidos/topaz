@@ -51,12 +51,12 @@ enum ROE_EVENT
     ROE_NONE // End of enum marker and OOB checkpost. Do not move or remove, place any new types above.
 };
 
-typedef std::array<uint16, 6> TimedRecordMatrix_D;
-typedef std::array<TimedRecordMatrix_D, 7> TimedRecordMatrix_W;
+typedef std::array<uint16, 6> RecordTimetable_D;
+typedef std::array<RecordTimetable_D, 7> RecordTimetable_W;
 struct RoeSystemData
 {
     bool RoeEnabled;
-    TimedRecordMatrix_W TimedRecordTable;
+    RecordTimetable_W TimedRecordTable;
     std::bitset<4096> ImplementedRecords;
     std::bitset<4096> RepeatableRecords;
     std::bitset<4096> DailyRecords;
@@ -81,19 +81,19 @@ enum class RoeDatagramPayload
 struct RoeDatagram
 {
     RoeDatagramPayload type;
-    std::string param;
+    std::string luaKey;
     union data {
         uint32 uinteger;
         CMobEntity* mobEntity;
         CItem* item;
     } data;
 
-    RoeDatagram(std::string param, uint32 id) : param{param}
+    RoeDatagram(std::string param, uint32 id) : luaKey{param}
     {
         this->type = RoeDatagramPayload::uinteger;
         this->data.uinteger = id;
     }
-    RoeDatagram(std::string param, CMobEntity* PMob) : param{param}
+    RoeDatagram(std::string param, CMobEntity* PMob) : luaKey{param}
     {
         this->type = RoeDatagramPayload::mob;
         this->data.mobEntity = PMob;
@@ -111,8 +111,8 @@ int32  RegisterHandler(lua_State* L);
 int32  ParseRecords(lua_State* L);
 int32  ParseTimedSchedule(lua_State* L);
 
-bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload);
-bool   event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram payload);
+bool   event(ROE_EVENT eventID, CCharEntity* PChar, const RoeDatagramList& payload);
+bool   event(ROE_EVENT eventID, CCharEntity* PChar, const RoeDatagram& payload);
 
 void   SetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID, bool newStatus);
 bool   GetEminenceRecordCompletion(CCharEntity* PChar, uint16 recordID);
@@ -128,7 +128,7 @@ void   ClearDailyRecords(CCharEntity* PChar);
 void   CycleDailyRecords();
 
 uint16 GetActiveTimedRecord();
-void   SetActiveTimedRecord(CCharEntity* PChar);
+void   AddActiveTimedRecord(CCharEntity* PChar);
 void   CycleTimedRecords();
 
 } /* namespace roe */

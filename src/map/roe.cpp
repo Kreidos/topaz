@@ -108,7 +108,6 @@ int32 ParseRecords(lua_State* L)
     roeutils::RoeSystem.DailyRecordIDs.clear();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
     roeutils::RoeSystem.TimedRecords.reset();
-    roeutils::RoeSystem.TimedRecordTable.fill(TimedRecordMatrix_D{});
 
     // Build caching bitsets from records
     lua_pushnil(L);
@@ -157,6 +156,8 @@ int32 ParseTimedSchedule(lua_State* L)
     if (lua_isnil(L, -1) || !lua_istable(L, -1))
             return 0;
 
+    roeutils::RoeSystem.TimedRecordTable.fill(RecordTimetable_D{});
+
     lua_pushnil(L);
     while (lua_next(L, -2) != 0)
     {
@@ -167,7 +168,7 @@ int32 ParseTimedSchedule(lua_State* L)
         {
             auto block = lua_tointeger(L, -2)-1;
             uint16 recordID = static_cast<uint16>(lua_tointeger(L, -1));
-            roeutils::RoeSystem.TimedRecordTable[day][block] = recordID;
+            roeutils::RoeSystem.TimedRecordTable.at(day).at(block) = recordID;
             lua_pop(L, 1);
         }
 
@@ -176,7 +177,7 @@ int32 ParseTimedSchedule(lua_State* L)
     return 0;
 }
 
-bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload)
+bool event(ROE_EVENT eventID, CCharEntity* PChar, const RoeDatagramList& payload)
 {
     if (!RoeSystem.RoeEnabled || !PChar || PChar->objtype != TYPE_PC)
         return false;
@@ -216,9 +217,9 @@ bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload)
             lua_pushinteger(L, PChar->m_eminenceLog.progress[i]);
             lua_setfield(L, -2, "progress");
 
-            for (auto& datagram : payload)
+            for (auto& datagram : payload)  // Append datagrams to param table
             {
-                lua_pushstring(L, datagram.param.c_str());
+                lua_pushstring(L, datagram.luaKey.c_str());
                 switch (datagram.type)
                 {
                 case RoeDatagramPayload::mob:
@@ -247,7 +248,7 @@ bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagramList payload)
     return true;
 }
 
-bool event(ROE_EVENT eventID, CCharEntity* PChar, RoeDatagram data) // shorthand for single-datagram calls.
+bool event(ROE_EVENT eventID, CCharEntity* PChar, const RoeDatagram& data) // shorthand for single-datagram calls.
 {
     return event(eventID, PChar, RoeDatagramList { data });
 }
@@ -404,7 +405,7 @@ void onCharLoad(CCharEntity* PChar)
         auto lastJstTimedBlock = timegm(jst) - JST_OFFSET;   // Unix timestamp of the start of the current 4-hr block
 
         if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
-            SetActiveTimedRecord(PChar);
+            AddActiveTimedRecord(PChar);
     }
 }
 
@@ -415,7 +416,7 @@ uint16 GetActiveTimedRecord()
     return RoeSystem.TimedRecordTable[day][block];
 }
 
-void SetActiveTimedRecord(CCharEntity* PChar)
+void AddActiveTimedRecord(CCharEntity* PChar)
 {
     // Clear old timed entries from log
     PChar->m_eminenceLog.progress[30] = 0;
@@ -460,7 +461,7 @@ void CycleTimedRecords()
 {
     zoneutils::ForEachZone([](CZone* PZone){
         PZone->ForEachChar([](CCharEntity* PChar){
-            SetActiveTimedRecord(PChar);
+            AddActiveTimedRecord(PChar);
         });
     });
 }
