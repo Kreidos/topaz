@@ -88,7 +88,7 @@ int32 time_server(time_point tick,CTaskMgr::CTask* PTask)
     {
         if (tick > (lastTickedJstMidnight + 1h))
         {
-            // roeutils::CycleDailyRecords();
+            roeutils::CycleDailyRecords();
             guildutils::UpdateGuildPointsPattern();
             lastTickedJstMidnight = tick;
         }
