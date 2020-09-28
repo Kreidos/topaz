@@ -209,7 +209,7 @@ tpz.roe.records =
         trigger = triggers.dmgTaken,
         goal = 10000,
         increment = 0,
-        notify = 5000,
+        notify = 500,
         reward = { sparks = 1000, xp = 1000, item = { {8711, 2} } },
         check = function(self, player, params)
                 if params.dmg and params.dmg > 0 then
@@ -224,7 +224,7 @@ tpz.roe.records =
         trigger = triggers.dmgTaken,
         goal = 20000,
         increment = 0,
-        notify = 10000,
+        notify = 1000,
         reward = { sparks = 3000, xp = 5000, item = { {8711, 4} } },
         check = function(self, player, params)
                 if params.dmg and params.dmg > 0 then
@@ -239,7 +239,7 @@ tpz.roe.records =
         trigger = triggers.dmgTaken,
         goal = 30000,
         increment = 0,
-        notify = 10000,
+        notify = 1000,
         reward = { sparks = 3000, xp = 5000, item = { {8711, 6} } },
         check = function(self, player, params)
                 if params.dmg and params.dmg > 0 then
