@@ -77,24 +77,9 @@ end
 package.loaded["scripts/globals/roe_records"] = nil
 require("scripts/globals/roe_records")
 
--- *** onRecordTrigger is the primary entry point for all record calls. ***
--- Even records which are completed through Lua scripts should point here and
--- have record information entered in roe_records.lua. This keeps everything neat.
-
-function tpz.roe.onRecordTrigger(player, recordID, params)
-    local entry = tpz.roe.records[recordID]
-    if entry and entry:check(player, params) then
-        local progress = (params and params.progress or player:getEminenceProgress(recordID)) + entry.increment
-        if progress >= entry.goal then
-            completeRecord(player, recordID, entry.reward)
-        else
-            player:setEminenceProgress(recordID, progress, entry.goal)
-        end
-    end
-end
-
 --[[ **************************************************************************
     Complete a record of eminence. This is for internal roe use only.
+    For external calls use onRecordTrigger below. (see healing.lua for example)
     If record rewards items, and the player cannot carry them, return false.
     Otherwise, return true.
     Example of usage with params (all params are optional):
@@ -147,3 +132,18 @@ local function completeRecord(player, record, params)
     return true
 end
 
+-- *** onRecordTrigger is the primary entry point for all record calls. ***
+-- Even records which are completed through Lua scripts should point here and
+-- have record information entered in roe_records.lua. This keeps everything neat.
+
+function tpz.roe.onRecordTrigger(player, recordID, params)
+    local entry = tpz.roe.records[recordID]
+    if entry and entry:check(player, params) then
+        local progress = (params and params.progress or player:getEminenceProgress(recordID)) + entry.increment
+        if progress >= entry.goal then
+            completeRecord(player, recordID, entry.reward)
+        else
+            player:setEminenceProgress(recordID, progress, entry.goal)
+        end
+    end
+end
