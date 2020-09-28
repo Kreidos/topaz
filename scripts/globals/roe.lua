@@ -45,7 +45,6 @@ checks.mobFamily = function(self, player, params)   -- Mob family is
 end
 
 checks.mobSystem = function(self, player, params)   -- Mob system is 
-    print("Checking mob family: " .. params.mob:getSystem() .. " = " .. (self.reqs.mobSystem[params.mob:getSystem()] and "True" or "False"))
     return (params.mob and self.reqs.mobSystem[params.mob:getSystem()]) and true or false
 end
 
