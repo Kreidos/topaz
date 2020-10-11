@@ -81,18 +81,19 @@ require("scripts/globals/roe_records")
     For external calls use onRecordTrigger below. (see healing.lua for example)
     If record rewards items, and the player cannot carry them, return false.
     Otherwise, return true.
-    Example of usage with params (all params are optional):
-        npcUtil.completeRecord(player, record#, {
+    Example of usage + reward table from roe_records.lua (all params are optional):
+        completeRecord(player, record#)
+        reward = {
             item = { {640,2}, 641 },          -- see npcUtil.giveItem for formats (Only given on first completion)
             keyItem = tpz.ki.ZERUHN_REPORT,   -- see npcUtil.giveKeyItem for formats
             sparks = 500,
             xp = 1000
         })
      *************************************************************************** --]]
-local function completeRecord(player, record, rewards)
+local function completeRecord(player, record)
     local recordEntry = tpz.roe.records[record]
     local recordFlags = recordEntry.flags
-    local rewards = rewards or recordEntry.reward
+    local rewards = recordEntry.reward
 
     if not player:getEminenceCompleted(record) and rewards["item"] then
         if not npcUtil.giveItem(player, rewards["item"]) then
