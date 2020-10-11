@@ -89,12 +89,12 @@ require("scripts/globals/roe_records")
             xp = 1000
         })
      *************************************************************************** --]]
-local function completeRecord(player, record, params)
-    local params = params or {}
+local function completeRecord(player, record, rewards)
     local recordEntry = tpz.roe.records[record] or {}
+    local rewards = rewards or recordEntry.reward or {}
 
-    if not player:getEminenceCompleted(record) and params["item"] then
-        if not npcUtil.giveItem(player, params["item"]) then
+    if not player:getEminenceCompleted(record) and rewards["item"] then
+        if not npcUtil.giveItem(player, rewards["item"]) then
             player:messageBasic(tpz.msg.basic.ROE_UNABLE_BONUS_ITEM)
             return false
         end
@@ -102,28 +102,28 @@ local function completeRecord(player, record, params)
 
     player:messageBasic(tpz.msg.basic.ROE_COMPLETE,record)
 
-    if params["sparks"] ~= nil and type(params["sparks"]) == "number" then
+    if rewards["sparks"] ~= nil and type(rewards["sparks"]) == "number" then
         local bonus = 1
         if player:getEminenceCompleted(record) then
-            player:addCurrency('spark_of_eminence', params["sparks"] * bonus * SPARKS_RATE)
-            player:messageBasic(tpz.msg.basic.ROE_RECEIVE_SPARKS, params["sparks"] * SPARKS_RATE, player:getCurrency("spark_of_eminence"))
+            player:addCurrency('spark_of_eminence', rewards["sparks"] * bonus * SPARKS_RATE)
+            player:messageBasic(tpz.msg.basic.ROE_RECEIVE_SPARKS, rewards["sparks"] * SPARKS_RATE, player:getCurrency("spark_of_eminence"))
         else
             bonus = 3
-            player:addCurrency('spark_of_eminence', params["sparks"] * bonus * SPARKS_RATE)
-            player:messageBasic(tpz.msg.basic.ROE_FIRST_TIME_SPARKS, params["sparks"] * bonus * SPARKS_RATE, player:getCurrency("spark_of_eminence"))
+            player:addCurrency('spark_of_eminence', rewards["sparks"] * bonus * SPARKS_RATE)
+            player:messageBasic(tpz.msg.basic.ROE_FIRST_TIME_SPARKS, rewards["sparks"] * bonus * SPARKS_RATE, player:getCurrency("spark_of_eminence"))
         end
     end
 
-    if params["xp"] ~= nil and type(params["xp"]) == "number" then
-        player:addExp(params["xp"] * ROE_EXP_RATE)
+    if rewards["xp"] ~= nil and type(rewards["xp"]) == "number" then
+        player:addExp(rewards["xp"] * ROE_EXP_RATE)
     end
 
-    if params["keyItem"] ~= nil then
-        npcUtil.giveKeyItem(player, params["keyItem"])
+    if rewards["keyItem"] ~= nil then
+        npcUtil.giveKeyItem(player, rewards["keyItem"])
     end
 
     -- successfully complete the record
-    if params["repeatable"] then
+    if rewards["repeatable"] then
         if recordEntry.flags and recordEntry.flags.timed then
             player:messageBasic(tpz.msg.basic.ROE_TIMED_CLEAR)
         else
@@ -145,7 +145,7 @@ function tpz.roe.onRecordTrigger(player, recordID, params)
     if entry and entry:check(player, params) then
         local progress = (params and params.progress or player:getEminenceProgress(recordID)) + entry.increment
         if progress >= entry.goal then
-            completeRecord(player, recordID, entry.reward)
+            completeRecord(player, recordID)
         else
             player:setEminenceProgress(recordID, progress, entry.goal)
         end
