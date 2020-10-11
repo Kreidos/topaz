@@ -399,7 +399,7 @@ void onCharLoad(CCharEntity* PChar)
     {
         // Time gets messy, avert your eyes.
         auto jstnow = time(nullptr) + JST_OFFSET;
-        auto lastOnline = PChar->m_eminenceCache.lastOnline;
+        auto lastOnline = PChar->lastOnline;
 
         {   // Daily Reset
             auto* jst = gmtime(&jstnow);

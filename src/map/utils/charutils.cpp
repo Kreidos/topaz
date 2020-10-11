@@ -439,12 +439,12 @@ namespace charutils
             char* eminence = nullptr;
             Sql_GetData(SqlHandle, 24, &eminence, &length);
             memcpy(&PChar->m_eminenceLog, eminence, (length > sizeof(PChar->m_eminenceLog) ? sizeof(PChar->m_eminenceLog) : length));
-            PChar->m_eminenceCache.lastOnline = Sql_GetUIntData(SqlHandle, 29);
 
             PChar->SetPlayTime(Sql_GetUIntData(SqlHandle, 25));
             PChar->profile.campaign_allegiance = (uint8)Sql_GetIntData(SqlHandle, 26);
             PChar->setStyleLocked(Sql_GetIntData(SqlHandle, 27) == 1 ? true : false);
             PChar->SetMoghancement(Sql_GetUIntData(SqlHandle, 28));
+            PChar->lastOnline = Sql_GetUIntData(SqlHandle, 29);
 
         }
 
