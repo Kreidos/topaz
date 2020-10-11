@@ -391,33 +391,37 @@ void onCharLoad(CCharEntity* PChar)
     for(int i = 0; i < 31; i++)
     {
         uint16 record = PChar->m_eminenceLog.active[i];
-        if(record) PChar->m_eminenceCache.activemap.set(record);
+        if (record) PChar->m_eminenceCache.activemap.set(record);
     }
 
-    // Time gets messy, avert your eyes.
-    auto jstnow = time(nullptr) + JST_OFFSET;
-    auto lastOnline = PChar->m_eminenceCache.lastOnline;
+    // Only chars with First Step Forward complete can get timed/daily records
+    if (GetEminenceRecordCompletion(PChar, 1))
+    {
+        // Time gets messy, avert your eyes.
+        auto jstnow = time(nullptr) + JST_OFFSET;
+        auto lastOnline = PChar->m_eminenceCache.lastOnline;
 
-    {   // Daily Reset
-        auto* jst = gmtime(&jstnow);
-        jst->tm_hour = 0;
-        jst->tm_min = 0;
-        jst->tm_sec = 0;
-        auto lastJstMidnight = timegm(jst) - JST_OFFSET;     // Unix timestamp of the last JST midnight
+        {   // Daily Reset
+            auto* jst = gmtime(&jstnow);
+            jst->tm_hour = 0;
+            jst->tm_min = 0;
+            jst->tm_sec = 0;
+            auto lastJstMidnight = timegm(jst) - JST_OFFSET;     // Unix timestamp of the last JST midnight
 
-        if (lastOnline < lastJstMidnight)
-            ClearDailyRecords(PChar);
-    }
+            if (lastOnline < lastJstMidnight)
+                ClearDailyRecords(PChar);
+        }
 
-    {   // 4hr Reset
-        auto* jst = gmtime(&jstnow);
-        jst->tm_hour = jst->tm_hour & 0xFC;
-        jst->tm_min = 0;
-        jst->tm_sec = 0;
-        auto lastJstTimedBlock = timegm(jst) - JST_OFFSET;   // Unix timestamp of the start of the current 4-hr block
+        {   // 4hr Reset
+            auto* jst = gmtime(&jstnow);
+            jst->tm_hour = jst->tm_hour & 0xFC;
+            jst->tm_min = 0;
+            jst->tm_sec = 0;
+            auto lastJstTimedBlock = timegm(jst) - JST_OFFSET;   // Unix timestamp of the start of the current 4-hr block
 
-        if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
-            AddActiveTimedRecord(PChar);
+            if (lastOnline < lastJstTimedBlock || PChar->m_eminenceLog.active[30] != GetActiveTimedRecord())
+                AddActiveTimedRecord(PChar);
+        }
     }
 }
 
@@ -473,7 +477,8 @@ void CycleTimedRecords()
 {
     zoneutils::ForEachZone([](CZone* PZone){
         PZone->ForEachChar([](CCharEntity* PChar){
-            AddActiveTimedRecord(PChar);
+            if (GetEminenceRecordCompletion(PChar, 1))
+                AddActiveTimedRecord(PChar);
         });
     });
 }
