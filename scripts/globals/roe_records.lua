@@ -2103,7 +2103,7 @@ tpz.roe.records =
     [4008] = {   -- Vanquish Aquans
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{2} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.AQUAN} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2111,7 +2111,7 @@ tpz.roe.records =
     [4009] = {   -- Vanquish Beasts
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{6} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.BEAST} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2119,7 +2119,7 @@ tpz.roe.records =
     [4010] = {   -- Vanquish Plantoids
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{17} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.PLANTOID} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2127,7 +2127,7 @@ tpz.roe.records =
     [4011] = {   -- Vanquish Lizards
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{14} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.LIZARD} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2135,7 +2135,7 @@ tpz.roe.records =
     [4012] = {   -- Vanquish Vermin
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{20} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.VERMIN} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2166,7 +2166,7 @@ tpz.roe.records =
     [4015] = {   -- Vanquish Birds (TODO: No abyssea zone kills for vanquishes when exists)
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{8} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.BIRD} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2174,7 +2174,7 @@ tpz.roe.records =
     [4016] = {   -- Vanquish Amorphs
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{1} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.AMORPH} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2182,7 +2182,7 @@ tpz.roe.records =
     [4017] = {   -- Vanquish Undead
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{19} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.UNDEAD} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
@@ -2190,7 +2190,7 @@ tpz.roe.records =
     [4018] = {   -- Vanquish Arcana
         trigger = triggers.mobKill,
         goal = 20,
-        reqs = { mobXP = true, mobSystem = set{3} },
+        reqs = { mobXP = true, mobSystem = set{tpz.eco.ARCANA} },
         flags = set{"timed", "repeat"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
