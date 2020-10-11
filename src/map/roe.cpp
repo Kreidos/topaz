@@ -99,29 +99,31 @@ int32 ParseRecords(lua_State* L)
 
         // Set flags
         lua_getfield(L, -1, "flags");
-        if (!lua_isnil(L, -1))
+        if (!lua_isnil(L, -1) && lua_istable(L, -1))
         {
-            lua_getfield(L, -1, "daily");
-            if (lua_toboolean(L, -1))
+            lua_pushnil(L);
+            while (lua_next(L, -2) != 0)
             {
+                std::string flag = lua_tostring(L, -2);
+                if (flag == "daily")
+                {
                     roeutils::RoeSystem.DailyRecords.set(recordID);
                     roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
+                }
+                else if (flag == "timed")
+                {
+                    roeutils::RoeSystem.TimedRecords.set(recordID);
+                }
+                else if (flag == "repeat")
+                {
+                    roeutils::RoeSystem.RepeatableRecords.set(recordID);
+                }
+                else
+                {
+                    ShowError("ROEUtils: Unknown flag %s for record #%d.", flag, recordID);
+                }
+                lua_pop(L, 1);
             }
-            lua_pop(L, 1);
-
-            lua_getfield(L, -1, "timed");
-            if (lua_toboolean(L, -1))
-            {
-                roeutils::RoeSystem.TimedRecords.set(recordID);
-            }
-            lua_pop(L, 1);
-
-            lua_getfield(L, -1, "repeat");
-            if (lua_toboolean(L, -1))
-            {
-                roeutils::RoeSystem.RepeatableRecords.set(recordID);
-            }
-            lua_pop(L, 1);
         }
         lua_pop(L, 1);
 
