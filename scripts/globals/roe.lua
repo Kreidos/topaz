@@ -91,6 +91,7 @@ require("scripts/globals/roe_records")
      *************************************************************************** --]]
 local function completeRecord(player, record, params)
     local params = params or {}
+    local recordEntry = tpz.roe.records[record] or {}
 
     if not player:getEminenceCompleted(record) and params["item"] then
         if not npcUtil.giveItem(player, params["item"]) then
@@ -123,7 +124,11 @@ local function completeRecord(player, record, params)
 
     -- successfully complete the record
     if params["repeatable"] then
-        player:messageBasic(tpz.msg.basic.ROE_REPEAT_OR_CANCEL)
+        if recordEntry.flags and recordEntry.flags.timed then
+            player:messageBasic(tpz.msg.basic.ROE_TIMED_CLEAR)
+        else
+            player:messageBasic(tpz.msg.basic.ROE_REPEAT_OR_CANCEL)
+        end
         player:setEminenceCompleted(record, 1)
     else
         player:setEminenceCompleted(record)
