@@ -107,7 +107,6 @@ int32 ParseRecords(lua_State* L)
     roeutils::RoeSystem.DailyRecords.reset();
     roeutils::RoeSystem.DailyRecordIDs.clear();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
-    roeutils::RoeSystem.TimedRecords.reset();
 
     // Build caching bitsets from records
     lua_pushnil(L);
@@ -156,6 +155,7 @@ int32 ParseTimedSchedule(lua_State* L)
     if (lua_isnil(L, -1) || !lua_istable(L, -1))
             return 0;
 
+    roeutils::RoeSystem.TimedRecords.reset();
     roeutils::RoeSystem.TimedRecordTable.fill(RecordTimetable_D{});
 
     lua_pushnil(L);
@@ -169,6 +169,7 @@ int32 ParseTimedSchedule(lua_State* L)
             auto block = lua_tointeger(L, -2)-1;
             uint16 recordID = static_cast<uint16>(lua_tointeger(L, -1));
             roeutils::RoeSystem.TimedRecordTable.at(day).at(block) = recordID;
+            roeutils::RoeSystem.TimedRecords.set(recordID);
             lua_pop(L, 1);
         }
 
