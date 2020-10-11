@@ -37,39 +37,39 @@ checks.mobID = function(self, player, params)    -- Mob ID check
 end
 
 checks.mobXP = function(self, player, params)    -- Mob yields xp
-     return (params.mob and player:checkKillCredit(params.mob)) and true or false
+    return (params.mob and player:checkKillCredit(params.mob)) and true or false
 end
 
-checks.mobFamily = function(self, player, params)   -- Mob family is 
+checks.mobFamily = function(self, player, params)   -- Mob family in set
     return (params.mob and self.reqs.mobFamily[params.mob:getFamily()]) and true or false
 end
 
-checks.mobSystem = function(self, player, params)   -- Mob system is 
+checks.mobSystem = function(self, player, params)   -- Mob system in set
     return (params.mob and self.reqs.mobSystem[params.mob:getSystem()]) and true or false
 end
 
 checks.dmgMin = function(self, player, params)  -- Minimum Dmg Dealt/Taken
-     return (params.dmg and params.dmg >= self.reqs.dmgMin) and true or false
+    return (params.dmg and params.dmg >= self.reqs.dmgMin) and true or false
 end
 
 checks.dmgMax = function(self, player, params)  -- Maximum Dmg Dealt/Taken
-     return (params.dmg and params.dmg <= self.reqs.dmgMax) and true or false
+    return (params.dmg and params.dmg <= self.reqs.dmgMax) and true or false
 end
 
 checks.zone = function(self, player, params)  -- Player in Zone
-     return (self.reqs.zone[player:getZoneID()]) and true or false
+    return (self.reqs.zone[player:getZoneID()]) and true or false
 end
 
 checks.zoneNot = function(self, player, params)  -- Player not in Zone
-     return (not self.reqs.zoneNot[player:getZoneID()]) and true or false
+    return (not self.reqs.zoneNot[player:getZoneID()]) and true or false
 end
 
 checks.itemID = function(self, player, params)  -- itemid in set
-     return (params.itemid and self.reqs.itemID[params.itemid]) and true or false
+    return (params.itemid and self.reqs.itemID[params.itemid]) and true or false
 end
 
 checks.levelSync = function(self, player, params)  -- Player is Level Sync'd
-     return self.reqs.levelSync and player:isLevelSync() and true or false
+    return self.reqs.levelSync and player:isLevelSync() and true or false
 end
 
 -- Load Records

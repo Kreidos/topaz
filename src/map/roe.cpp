@@ -123,11 +123,23 @@ int32 ParseRecords(lua_State* L)
         lua_pop(L, 1);
 
         // Set time flags
-        lua_getfield(L, -1, "timeslot");
-        if (lua_isstring(L, -1) && std::string(lua_tostring(L, -1)) == "daily")
+        lua_getfield(L, -1, "flags");
+        if (!lua_isnil(L, -1))
         {
-            roeutils::RoeSystem.DailyRecords.set(recordID);
-            roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
+            lua_getfield(L, -1, "daily");
+            if (lua_toboolean(L, -1))
+            {
+                    roeutils::RoeSystem.DailyRecords.set(recordID);
+                    roeutils::RoeSystem.DailyRecordIDs.push_back(recordID);
+            }
+            lua_pop(L, 1);
+
+            lua_getfield(L, -1, "timed");
+            if (lua_toboolean(L, -1))
+            {
+                roeutils::RoeSystem.TimedRecords.set(recordID);
+            }
+            lua_pop(L, 1);
         }
         lua_pop(L, 1);
 
@@ -169,7 +181,6 @@ int32 ParseTimedSchedule(lua_State* L)
             auto block = lua_tointeger(L, -2)-1;
             uint16 recordID = static_cast<uint16>(lua_tointeger(L, -1));
             roeutils::RoeSystem.TimedRecordTable.at(day).at(block) = recordID;
-            roeutils::RoeSystem.TimedRecords.set(recordID);
             lua_pop(L, 1);
         }
 

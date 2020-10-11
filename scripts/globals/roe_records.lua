@@ -1903,7 +1903,7 @@ tpz.roe.records =
     [4082] = { -- Vanquish Multiple Enemies (D)
         trigger = triggers.mobKill,
         goal = 30,
-        timeslot = "daily",
+        flags = set{"daily"},
         reqs = { mobXP = true },
         reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 } },
     },
@@ -1916,6 +1916,7 @@ tpz.roe.records =
     [4008] = {   -- Vanquish Aquans
         trigger = triggers.mobKill,
         goal = 20,
+        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{2} },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
@@ -1923,6 +1924,7 @@ tpz.roe.records =
     [4009] = {   -- Vanquish Beasts
         trigger = triggers.mobKill,
         goal = 20,
+        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{6} },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
@@ -1930,6 +1932,7 @@ tpz.roe.records =
     [4010] = {   -- Vanquish Plantoids
         trigger = triggers.mobKill,
         goal = 20,
+        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{17} },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
@@ -1937,6 +1940,7 @@ tpz.roe.records =
     [4011] = {   -- Vanquish Lizards
         trigger = triggers.mobKill,
         goal = 20,
+        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{14} },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
@@ -1944,6 +1948,7 @@ tpz.roe.records =
     [4012] = {   -- Vanquish Vermin
         trigger = triggers.mobKill,
         goal = 20,
+        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{20} },
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
@@ -1952,6 +1957,7 @@ tpz.roe.records =
         trigger = triggers.expGain,
         goal = 5000,
         increment = 0,
+        flags = set{"timed"},
         reward = { sparks = 300, xp = 1500, unity = 300, item = { 8711 }, repeatable = true },
         check = function(self, player, params)
                 if params.exp and params.exp > 0 then
@@ -1966,6 +1972,7 @@ tpz.roe.records =
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{1126, 1127, 2955, 2956, 2957} },
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
@@ -1973,6 +1980,7 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{8} },
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
@@ -1980,6 +1988,7 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{1} },
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
@@ -1987,6 +1996,7 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{19} },
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
@@ -1994,14 +2004,16 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{3} },
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
 
     [4019] = {   -- Crack Treasure Caskets (Triggered from caskets.lua)
         goal = 10,
+        flags = set{"timed"},
         reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
     },
-    
+
     -- [4020] = {  -- Physical Damage Kills
     -- [4021] = {  -- Magic Damage Kills
 }
