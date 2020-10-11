@@ -122,7 +122,7 @@ int32 ParseRecords(lua_State* L)
             roeutils::RoeSystem.NotifyThresholds[recordID] = static_cast<uint32>((lua_tointeger(L, -1)));
         lua_pop(L, 1);
 
-        // Set time flags
+        // Set flags
         lua_getfield(L, -1, "flags");
         if (!lua_isnil(L, -1))
         {
@@ -140,14 +140,8 @@ int32 ParseRecords(lua_State* L)
                 roeutils::RoeSystem.TimedRecords.set(recordID);
             }
             lua_pop(L, 1);
-        }
-        lua_pop(L, 1);
 
-        // Set repeatability bit
-        lua_getfield(L, -1, "reward");
-        if (!lua_isnil(L, -1))
-        {
-            lua_getfield(L, -1, "repeatable");
+            lua_getfield(L, -1, "repeat");
             if (lua_toboolean(L, -1))
             {
                 roeutils::RoeSystem.RepeatableRecords.set(recordID);

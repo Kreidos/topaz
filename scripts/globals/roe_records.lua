@@ -24,6 +24,7 @@ local defaults = {
     increment = 1,              -- Amount to increment per successful check
     notify = 1,                 -- Progress notifications shown every X increases 
     goal = 1,                   -- Progress goal
+    flags = {},                 -- Special flags. Possible values: "timed" "repeat" "daily"
     reqs = {},                  -- Other requirements. List of function names from above, with required values.
     reward = {},                -- Reward parameters give on completion. (See completeRecord directly below.)
 }
@@ -66,7 +67,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 200,
         reqs = { mobXP = true },
-        reward = { sparks = 1000, xp = 5000, unity = 100, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 1000, xp = 5000, unity = 100 },
     },
 
     [13  ] = { -- Vanquish Multiple Enemies II - 500
@@ -94,14 +96,16 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true , levelSync = true},
-        reward = { sparks = 200, xp = 600 , unity = 20 , repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 600 , unity = 20  },
     },
 
     [16  ] = { -- Deal 500+ Damage
         trigger = triggers.dmgDealt,
         goal = 200,
         reqs = { dmgMin = 500 },
-        reward = { sparks = 1000, xp = 5000, unity = 100, repeatable = true},
+        flags = set{"repeat"},
+        reward = { sparks = 1000, xp = 5000, unity = 100 },
     },
 
     [17  ] = { -- Deal 1000+ Damage
@@ -263,7 +267,8 @@ tpz.roe.records =
     [57  ] = { -- Total Successful Synthesis Attempts
         trigger = triggers.synthSuccess,
         goal = 30,
-        reward = { sparks = 100, xp = 500, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 500, unity = 10 },
     },
 
   --------------------------------------------
@@ -274,168 +279,192 @@ tpz.roe.records =
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4096 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [72  ] = { -- Spoils - Ice Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4097 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [73  ] = { -- Spoils - Wind Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4098 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [74  ] = { -- Spoils - Earth Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4099 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [75  ] = { -- Spoils - Lightning Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4100 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [76  ] = { -- Spoils - Water Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4101 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [77  ] = { -- Spoils - Light Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4102 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [78  ] = { -- Spoils - Dark Crystals
         trigger = triggers.itemLooted,
         goal = 10,
         reqs = { itemID = set{ 4103 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [84  ] = { -- Spoils - Flame Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3297 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [85  ] = { -- Spoils - Snow Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3298 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [86  ] = { -- Spoils - Breeze Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3299 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [87  ] = { -- Spoils - Soil Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3300 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [88  ] = { -- Spoils - Thunder Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3301 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [89  ] = { -- Spoils - Aqua Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3302 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [90  ] = { -- Spoils - Light Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3303 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [91  ] = { -- Spoils - Shadow Geode
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3304 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [92  ] = { -- Spoils - Ifritite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3520 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [93  ] = { -- Spoils - Shivite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3521 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [94  ] = { -- Spoils - Garudite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3522 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [95  ] = { -- Spoils - Titanite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3523 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [96  ] = { -- Spoils - Ramuite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3524 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [97  ] = { -- Spoils - Leviatite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3525 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [98  ] = { -- Spoils - Carbite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3526 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
     [99  ] = { -- Spoils - Fenrite
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{ 3527 } },
-        reward = { sparks = 200, xp = 1000, unity = 20, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 200, xp = 1000, unity = 20 },
     },
 
   --------------------------------------------
@@ -446,189 +475,216 @@ tpz.roe.records =
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 922 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [121 ] = { -- Spoils - Black Tiger Fang
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 884 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [122 ] = { -- Spoils - Flint Stone
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 768 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [123 ] = { -- Spoils - Rabbit Hide
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 856 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [124 ] = { -- Spoils - Honey
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 4370 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [125 ] = { -- Spoils - Sheepskin
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 505 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [126 ] = { -- Spoils - Lizard Skin
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 852 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [127 ] = { -- Spoils - Beetle Shell
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 889 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [128 ] = { -- Spoils - Zeruhn Soot
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 560 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [129 ] = { -- Spoils - Silver Name Tag
         trigger = triggers.itemLooted,
         goal = 1,
         reqs = { itemID = set{ 13116 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [130 ] = { -- Spoils - Quadav Helm
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 501 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [132 ] = { -- Spoils - Treant Bulb
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 953 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [133 ] = { -- Spoils - Wild Onion
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 4387 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [134 ] = { -- Spoils - Sleepshroom
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 4374 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [135 ] = { -- Spoils - Sand Bat Fang
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 1015 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [136 ] = { -- Spoils - Zinc Ore
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 642 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [137 ] = { -- Spoils - Giant Bird Feather
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 842 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [138 ] = { -- Spoils - Three-leaf Mandragora Bud
         trigger = triggers.itemLooted,
         goal = 1,
         reqs = { itemID = set{ 1154 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [139 ] = { -- Spoils - Four-leaf Mandragora Bud
         trigger = triggers.itemLooted,
         goal = 1,
         reqs = { itemID = set{ 4369 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [140 ] = { -- Spoils - Cornette
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 17344 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [141 ] = { -- Spoils - Yuhtunga Sulfur
         trigger = triggers.itemLooted,
         goal = 1,
         reqs = { itemID = set{ 934 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [142 ] = { -- Spoils - Snobby Letter
         trigger = triggers.itemLooted,
         goal = 1,
         reqs = { itemID = set{ 1150 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [143 ] = { -- Spoils - Yagudo Bead Necklace
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 498 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [144 ] = { -- Spoils - Woozyshroom
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 4373 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [145 ] = { -- Spoils - Beehive Chip
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 912 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [146 ] = { -- Spoils - Remi Shell
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 1016 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
     [147 ] = { -- Spoils - Twinstone Earring
         trigger = triggers.itemLooted,
         goal = 2,
         reqs = { itemID = set{ 13360 } },
-        reward = { sparks = 100, xp = 300, unity = 10, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 100, xp = 300, unity = 10 },
     },
 
   ----------------------------------------
@@ -639,7 +695,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{100} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 4439 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 4439 } },
     },
 
     [216 ] = { -- Subjugation: Jaggedy-Eared Jack
@@ -652,7 +709,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{101} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 12577 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 12577 } },
     },
 
     [218 ] = { -- Subjugation: Swamfisk
@@ -665,7 +723,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{140} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 13331 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 13331 } },
     },
 
     [220 ] = { -- Subjugation: Thousandarm Deshglesh
@@ -678,7 +737,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{141} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 13333 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 13333 } },
     },
 
     [222 ] = { -- Subjugation: Hundredscar Hajwaj
@@ -691,7 +751,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{142} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 13336 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 13336 } },
     },
 
     [224 ] = { -- Subjugation: Ashmaker Gotblut
@@ -704,7 +765,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{190} },
-        reward = { sparks = 10, xp = 100, unity = 5, item = { 13443 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 100, unity = 5, item = { 13443 } },
     },
 
     [226 ] = { -- Subjugation: Barbastelle
@@ -717,7 +779,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{167} },
-        reward = { sparks = 15, xp = 100, unity = 5, item = { 11532 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 100, unity = 5, item = { 11532 } },
     },
 
     [228 ] = { -- Subjugation: Bloodsucker
@@ -730,7 +793,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{103} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13456 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13456 } },
     },
 
     [230 ] = { -- Subjugation: Valkurm Emperor
@@ -743,7 +807,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{108} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13472 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13472 } },
     },
 
     [232 ] = { -- Subjugation: Bendigeit Vran
@@ -756,7 +821,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{196} },
-        reward = { sparks = 11, xp = 100, unity = 5, item = { 13471 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 100, unity = 5, item = { 13471 } },
     },
 
     [234 ] = { -- Subjugation: Juggler Hecatomb
@@ -769,7 +835,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{102} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13444 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13444 } },
     },
 
     [236 ] = { -- Subjugation: Bloodtear Baldurf
@@ -783,7 +850,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{102} },
-        reward = { sparks = 12, xp = 100, unity = 5, item = { 13470 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 100, unity = 5, item = { 13470 } },
     },
 
     [238 ] = { -- Subjugation: Morbolger
@@ -800,7 +868,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{104} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { {4381, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { {4381, 12} } },
     },
 
     [240 ] = { -- Subjugation: King Arthro
@@ -813,7 +882,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{105} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13685 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13685 } },
     },
 
     [242 ] = { -- Subjugation: Lumber Jack
@@ -826,7 +896,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{195} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { 13198 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { 13198 } },
     },
 
     [244 ] = { -- Subjugation: Cwn Cyrff
@@ -839,7 +910,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{149} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 12554 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 12554 } },
     },
 
     [246 ] = { -- Subjugation: Hawkeyed Dnatbat
@@ -852,7 +924,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{106} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 4488 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 4488 } },
     },
 
     [248 ] = { -- Subjugation: Maighdean Uaine
@@ -865,7 +938,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{107} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 12592 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 12592 } },
     },
 
     [250 ] = { -- Subjugation: Carnero
@@ -878,14 +952,16 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{172} },
-        reward = { sparks = 10, xp = 100, unity = 5, item = { 13335 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 100, unity = 5, item = { 13335 } },
     },
 
     [252 ] = { -- Conflict: Palborough Mines
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{143} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 13330 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 13330 } },
     },
 
     [253 ] = { -- Subjugation: Zi-Ghi Bone-eater
@@ -898,7 +974,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{191} },
-        reward = { sparks = 10, xp = 100, unity = 5, item = { 13473 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 100, unity = 5, item = { 13473 } },
     },
 
     [255 ] = { -- Subjugation: Teporingo
@@ -911,7 +988,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{109} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { {5721, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { {5721, 12} } },
     },
 
     [257 ] = { -- Subjugation: Ni'Zho Bladebender
@@ -924,7 +1002,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{110} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 15487 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 15487 } },
     },
 
     [259 ] = { -- Subjugation: Simurgh
@@ -937,7 +1016,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{197} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { 13271 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { 13271 } },
     },
 
     [261 ] = { -- Subjugation: Demonic Tiphia
@@ -950,7 +1030,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{147} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13703 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13703 } },
     },
 
     [263 ] = { -- Subjugation: Zo'Khu Blackcloud
@@ -967,7 +1048,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{115} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 4498 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 4498 } },
     },
 
     [265 ] = { -- Subjugation: Nunyenunc
@@ -980,7 +1062,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{116} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 12601 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 12601 } },
     },
 
     [267 ] = { -- Subjugation: Spiny Spipi
@@ -993,7 +1076,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{145} },
-        reward = { sparks = 10, xp = 500, unity = 5, item = { 13337 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 500, unity = 5, item = { 13337 } },
     },
 
     [269 ] = { -- Subjugation: Hoo Mjuu the Torrent
@@ -1006,7 +1090,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{169} },
-        reward = { sparks = 15, xp = 100, unity = 5, item = { 13586 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 100, unity = 5, item = { 13586 } },
     },
 
     [271 ] = { -- Subjugation: Oni Carcass
@@ -1019,7 +1104,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{192} },
-        reward = { sparks = 10, xp = 100, unity = 5, item = { 13332 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 100, unity = 5, item = { 13332 } },
     },
 
     [273 ] = { -- Subjugation: Maltha
@@ -1032,7 +1118,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{194} },
-        reward = { sparks = 10, xp = 100, unity = 5, item = { 13334 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 10, xp = 100, unity = 5, item = { 13334 } },
     },
 
     [275 ] = { -- Subjugation: Bomb King
@@ -1045,7 +1132,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{118} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13474 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13474 } },
     },
 
     [277 ] = { -- Subjugation: Helldiver
@@ -1058,7 +1146,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{117} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13468 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13468 } },
     },
 
     [279 ] = { -- Subjugation: Serpopard Ishtar
@@ -1071,7 +1160,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{198} },
-        reward = { sparks = 12, xp = 100, unity = 5, item = { 13321 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 100, unity = 5, item = { 13321 } },
     },
 
     [281 ] = { -- Subjugation: Argus
@@ -1084,7 +1174,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{119} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { {4413, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { {4413, 12} } },
     },
 
     [283 ] = { -- Subjugation: Daggerclaw Dracos
@@ -1097,7 +1188,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{120} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13577 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13577 } },
     },
 
     [285 ] = { -- Subjugation: Roc
@@ -1110,7 +1202,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{200} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { 15907 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { 15907 } },
     },
 
     [287 ] = { -- Subjugation: Serket
@@ -1123,7 +1216,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{200} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13723 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13723 } },
     },
 
     [289 ] = { -- Subjugation: Lii Jixa the Somnolist
@@ -1140,7 +1234,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{111} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 16261 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 16261 } },
     },
 
     [291 ] = { -- Subjugation: Nue
@@ -1153,7 +1248,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{166} },
-        reward = { sparks = 11, xp = 100, unity = 5, item = { 13323 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 100, unity = 5, item = { 13323 } },
     },
 
     [293 ] = { -- Subjugation: Gloom Eye
@@ -1166,7 +1262,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{204} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { 13324 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { 13324 } },
     },
 
     [295 ] = { -- Subjugation: Goliath
@@ -1179,7 +1276,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{112} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 13315 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 13315 } },
     },
 
     [297 ] = { -- Subjugation: Biast
@@ -1192,7 +1290,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{161} },
-        reward = { sparks = 15, xp = 750, unity = 5, item = { 13688 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 750, unity = 5, item = { 13688 } },
     },
 
     [299 ] = { -- Subjugation: Duke Haborym
@@ -1205,7 +1304,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{162} },
-        reward = { sparks = 15, xp = 750, unity = 5, item = { 13689 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 750, unity = 5, item = { 13689 } },
     },
 
     [301 ] = { -- Subjugation: Baron Vapula
@@ -1218,7 +1318,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{126} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 16301 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 16301 } },
     },
 
     [303 ] = { -- Subjugation: Dosetsu Tree
@@ -1231,7 +1332,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{184} },
-        reward = { sparks = 13, xp = 100, unity = 5, item = { {5147, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 100, unity = 5, item = { {5147, 12} } },
     },
 
     [305 ] = { -- Subjugation: Epialtes
@@ -1244,7 +1346,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{157} },
-        reward = { sparks = 13, xp = 100, unity = 5, item = { {5149, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 100, unity = 5, item = { {5149, 12} } },
     },
 
     [307 ] = { -- Subjugation: Ogygos
@@ -1257,7 +1360,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{158} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { {5757, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { {5757, 12} } },
     },
 
     [309 ] = { -- Subjugation: Enkelados
@@ -1270,7 +1374,8 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{127} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { {4398, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { {4398, 12} } },
     },
 
   ----------------------------------------
@@ -1289,84 +1394,96 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{121} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { {4151, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { {4151, 12} } },
     },
 
     [392 ] = { -- Conflict: Ro'Maeve
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{122} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { {4156, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { {4156, 12} } },
     },
 
     [394 ] = { -- Conflict: Boyahda Tree
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{153} },
-        reward = { sparks = 16, xp = 100, unity = 5, item = { {4166, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 100, unity = 5, item = { {4166, 12} } },
     },
 
     [396 ] = { -- Conflict: Dragon's Aery
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{154} },
-        reward = { sparks = 17, xp = 850, unity = 5, item = { 4136 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 17, xp = 850, unity = 5, item = { 4136 } },
     },
 
     [398 ] = { -- Conflict: Eastern Altepa Desert
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{114} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { {4164, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { {4164, 12} } },
     },
 
     [400 ] = { -- Conflict: Western Altepa Desert
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{125} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { {4165, 12} }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { {4165, 12} } },
     },
 
     [402 ] = { -- Conflict: Quicksand Caves
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{208} },
-        reward = { sparks = 15, xp = 100, unity = 5, item = { 13637 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 100, unity = 5, item = { 13637 } },
     },
 
     [404 ] = { -- Conflict: Gustav Tunnel
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{212} },
-        reward = { sparks = 16, xp = 100, unity = 5, item = { 13579 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 100, unity = 5, item = { 13579 } },
     },
 
     [406 ] = { -- Conflict: Kuftal Tunnel
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{174} },
-        reward = { sparks = 14, xp = 100, unity = 5, item = { 16233 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 100, unity = 5, item = { 16233 } },
     },
 
     [408 ] = { -- Conflict: Cape Terrigan
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{113} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 16263 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 16263 } },
     },
 
     [410 ] = { -- Conflict: Valley of Sorrows
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{128} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 13108 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 13108 } },
     },
 
     [412 ] = { -- Conflict: Yuhtunga Jungle
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{123} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13125 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13125 } },
     },
 
   ----------------------------------------
@@ -1377,70 +1494,80 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{176 } },
-        reward = { sparks = 13, xp = 100, unity = 5, item = { 13207 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 100, unity = 5, item = { 13207 } },
     },
 
     [416 ] = { -- Conflict: Yhoator Jungle
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{124} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13273 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13273 } },
     },
 
     [418 ] = { -- Conflict: Temple of Uggalepih
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{159} },
-        reward = { sparks = 15, xp = 100, unity = 5, item = { 15913 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 15, xp = 100, unity = 5, item = { 15913 } },
     },
 
     [420 ] = { -- Conflict: Den of Rancor
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{160} },
-        reward = { sparks = 16, xp = 100, unity = 5, item = { 13208 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 100, unity = 5, item = { 13208 } },
     },
 
     [422 ] = { -- Conflict: Ifrit's Cauldron
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{205} },
-        reward = { sparks = 16, xp = 100, unity = 5, item = { 13344 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 100, unity = 5, item = { 13344 } },
     },
 
     [424 ] = { -- Conflict: Ru'Aun Gardens
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{130} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13346 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13346 } },
     },
 
     [426 ] = { -- Conflict: Ve'Lugannon Palace
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{177} },
-        reward = { sparks = 70, xp = 100, unity = 7, item = { 13348 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 100, unity = 7, item = { 13348 } },
     },
 
     [428 ] = { -- Conflict: Shrine of Ru'Avitau
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{178} },
-        reward = { sparks = 70, xp = 100, unity = 7, item = { 13343 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 100, unity = 7, item = { 13343 } },
     },
 
     [430 ] = { -- Conflict: Labyrinth of Onzozo
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{213} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 13345 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 13345 } },
     },
 
     [432 ] = { -- Conflict: Korroloka Tunnel
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{173} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13347 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13347 } },
     },
 
   ----------------------------------------
@@ -1451,84 +1578,96 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{11} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13350 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13350 } },
     },
 
     [436 ] = { -- Conflict: Newton Movalpolos
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{12} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 13349 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 13349 } },
     },
 
     [438 ] = { -- Conflict: Lufaise Meadows
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{24} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 14725 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 14725 } },
     },
 
     [440 ] = { -- Conflict: Misareaux Coast
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{25} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13417 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13417 } },
     },
 
     [442 ] = { -- Conflict: Phomiuna Aqueducts
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{27} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13325 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13325 } },
     },
 
     [444 ] = { -- Conflict: Riverne - Site #A01
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{30} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13461 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13461 } },
     },
 
     [446 ] = { -- Conflict: Riverne - Site #B01
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{29} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 15813 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 15813 } },
     },
 
     [448 ] = { -- Conflict: Sacrarium
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{28} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 13485 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 13485 } },
     },
 
     [450 ] = { -- Conflict: Promyvion - Holla
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{16} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13487 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13487 } },
     },
 
     [452 ] = { -- Conflict: Promyvion - Dem
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{18} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13489 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13489 } },
     },
 
     [454 ] = { -- Conflict: Promyvion - Mea
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{20} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13484 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13484 } },
     },
 
     [456 ] = { -- Conflict: Yuhtunga Jungle
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{22} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 13486 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 13486 } },
     },
 
   ----------------------------------------
@@ -1539,56 +1678,64 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{33} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13488 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13488 } },
     },
 
     [460 ] = { -- Conflict: Grand Palace of Hu'Xzoi
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{34} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13491 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13491 } },
     },
 
     [462 ] = { -- Conflict: Garden of Ru'Hmet
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{35} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 17285 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 17285 } },
     },
 
     [464 ] = { -- Conflict: Carpenters' Landing
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{2} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13490 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13490 } },
     },
 
     [468 ] = { -- Conflict: Bibiki Bay
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{4} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13546 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13546 } },
     },
 
     [472 ] = { -- Conflict: Attohwa Chasm
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{7} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13464 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13464 } },
     },
 
     [474 ] = { -- Conflict: Pso'Xja
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{9} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 13445 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 13445 } },
     },
 
     [476 ] = { -- Conflict: Uleguerand Range
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{5} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 13591 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 13591 } },
     },
 
   ----------------------------------------
@@ -1599,63 +1746,72 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{52} },
-        reward = { sparks = 60, xp = 800, unity = 6, item = { 12324 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 60, xp = 800, unity = 6, item = { 12324 } },
     },
 
     [535 ] = { -- Conflict: Mamook
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{65} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 12309 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 12309 } },
     },
 
     [537 ] = { -- Conflict: Wajaom Woodlands
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{51} },
-        reward = { sparks = 60, xp = 800, unity = 6, item = { 13275 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 60, xp = 800, unity = 6, item = { 13275 } },
     },
 
     [539 ] = { -- Conflict: Aydeewa Subterrane
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{68} },
-        reward = { sparks = 60, xp = 800, unity = 6, item = { 13197 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 60, xp = 800, unity = 6, item = { 13197 } },
     },
 
     [541 ] = { -- Conflict: Halvung
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{62} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 15890 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 15890 } },
     },
 
     [543 ] = { -- Conflict: Mount Zhayolm
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{61} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13629 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13629 } },
     },
 
     [545 ] = { -- Conflict: Caedarva Mire
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{79} },
-        reward = { sparks = 60, xp = 800, unity = 6, item = { 13212 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 60, xp = 800, unity = 6, item = { 13212 } },
     },
 
     [547 ] = { -- Conflict: Arrapago Reef
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{54} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 16235 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 16235 } },
     },
 
     [549 ] = { -- Conflict: Alza. Undersea Ruins
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{72} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13587 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13587 } },
     },
 
   ----------------------------------------
@@ -1666,84 +1822,96 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{81} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13092 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13092 } },
     },
 
     [555 ] = { -- Conflict: Jugner Forest [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{82} },
-        reward = { sparks = 14, xp = 700, unity = 5, item = { 12311 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 14, xp = 700, unity = 5, item = { 12311 } },
     },
 
     [557 ] = { -- Conflict: Batallia Downs [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{84} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 13087 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 13087 } },
     },
 
     [559 ] = { -- Conflict: La Vaule [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{85} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 13329 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 13329 } },
     },
 
     [561 ] = { -- Conflict: Eldieme Necropolis [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{175} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 16231 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 16231 } },
     },
 
     [563 ] = { -- Conflict: North Gustaberg [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{88} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13088 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13088 } },
     },
 
     [565 ] = { -- Conflict: Grauberg [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{89} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 13316 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 13316 } },
     },
 
     [567 ] = { -- Conflict: Vunkerl Inlet [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{83} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 14727 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 14727 } },
     },
 
     [569 ] = { -- Conflict: Pashhow Marshlands [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{90} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 13312 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 13312 } },
     },
 
     [571 ] = { -- Conflict: Rolanberry Fields [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{91} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 12308 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 12308 } },
     },
 
     [573 ] = { -- Conflict: Beadeaux [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{92} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 15991 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 15991 } },
     },
 
     [575 ] = { -- Conflict: Crawlers' Nest [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{171} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 15993 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 15993 } },
     },
 
 
@@ -1755,70 +1923,80 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{95} },
-        reward = { sparks = 11, xp = 550, unity = 5, item = { 13079 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 11, xp = 550, unity = 5, item = { 13079 } },
     },
 
     [579 ] = { -- Conflict: Fort Karugo-Narugo [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{96} },
-        reward = { sparks = 12, xp = 600, unity = 5, item = { 16265 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 12, xp = 600, unity = 5, item = { 16265 } },
     },
 
     [581 ] = { -- Conflict: Meriph. Mountains [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{97} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 12302 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 12302 } },
     },
 
     [583 ] = { -- Conflict: Sauro. Champaign [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{98} },
-        reward = { sparks = 13, xp = 650, unity = 5, item = { 16170 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 13, xp = 650, unity = 5, item = { 16170 } },
     },
 
     [585 ] = { -- Conflict: Castle Oztroja [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{99} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 15803 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 15803 } },
     },
 
     [587 ] = { -- Conflict: Garlaige Citadel [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{164} },
-        reward = { sparks = 16, xp = 800, unity = 5, item = { 13466 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 16, xp = 800, unity = 5, item = { 13466 } },
     },
 
     [589 ] = { -- Conflict: Beaucedine Glacier [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{136} },
-        reward = { sparks = 70, xp = 850, unity = 7, item = { 15805 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 70, xp = 850, unity = 7, item = { 15805 } },
     },
 
     [591 ] = { -- Conflict: Xarcabard [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{137} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 12385 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 12385 } },
     },
 
     [593 ] = { -- Conflict: Castle Zvahl Baileys [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{138} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 15539 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 15539 } },
     },
 
     [595 ] = { -- Conflict: Castle Zvahl Keep [S]
         trigger = triggers.mobKill,
         goal = 10,
         reqs = { zone = set{155} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 15780 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 15780 } },
     },
 
   ----------------------------------------
@@ -1829,63 +2007,72 @@ tpz.roe.records =
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{132} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 10914 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 10914 } },
     },
 
     [614 ] = { -- Conflict: Abyssea - Konschtat
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{15} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 15891 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 15891 } },
     },
 
     [615 ] = { -- Conflict: Abyssea - Tahrongi
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{45} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 11765 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 11765 } },
     },
 
     [616 ] = { -- Conflict: Abyssea - Attohwa
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{215} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 11763 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 11763 } },
     },
 
     [617 ] = { -- Conflict: Abyssea - Misareaux
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{216} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 10966 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 10966 } },
     },
 
     [618 ] = { -- Conflict: Abyssea - Vunkerl
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{217} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 10964 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 10964 } },
     },
 
     [619 ] = { -- Conflict: Abyssea - Altepa
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{218} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 10968 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 10968 } },
     },
 
     [620 ] = { -- Conflict: Abyssea - Uleguerand
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{253} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 11664 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 11664 } },
     },
 
     [621 ] = { -- Conflict: Abyssea - Grauberg
         trigger = triggers.mobKill,
         goal = 30,
         reqs = { zone = set{254} },
-        reward = { sparks = 80, xp = 900, unity = 8, item = { 11644 }, repeatable = true },
+        flags = set{"repeat"},
+        reward = { sparks = 80, xp = 900, unity = 8, item = { 11644 } },
     },
 
   ----------------------------------------
@@ -1903,8 +2090,8 @@ tpz.roe.records =
     [4082] = { -- Vanquish Multiple Enemies (D)
         trigger = triggers.mobKill,
         goal = 30,
-        flags = set{"daily"},
         reqs = { mobXP = true },
+        flags = set{"daily"},
         reward = { sparks = 100, xp = 500, unity = 300, item = { 8711 } },
     },
 
@@ -1916,49 +2103,49 @@ tpz.roe.records =
     [4008] = {   -- Vanquish Aquans
         trigger = triggers.mobKill,
         goal = 20,
-        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{2} },
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4009] = {   -- Vanquish Beasts
         trigger = triggers.mobKill,
         goal = 20,
-        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{6} },
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4010] = {   -- Vanquish Plantoids
         trigger = triggers.mobKill,
         goal = 20,
-        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{17} },
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4011] = {   -- Vanquish Lizards
         trigger = triggers.mobKill,
         goal = 20,
-        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{14} },
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4012] = {   -- Vanquish Vermin
         trigger = triggers.mobKill,
         goal = 20,
-        flags = set{"timed"},
         reqs = { mobXP = true, mobSystem = set{20} },
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4013] = { -- Gain Experience
         trigger = triggers.expGain,
         goal = 5000,
         increment = 0,
-        flags = set{"timed"},
-        reward = { sparks = 300, xp = 1500, unity = 300, item = { 8711 }, repeatable = true },
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, xp = 1500, unity = 300, item = { 8711 } },
         check = function(self, player, params)
                 if params.exp and params.exp > 0 then
                     params.progress = params.progress + params.exp
@@ -1972,46 +2159,46 @@ tpz.roe.records =
         trigger = triggers.itemLooted,
         goal = 3,
         reqs = { itemID = set{1126, 1127, 2955, 2956, 2957} },
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4015] = {   -- Vanquish Birds (TODO: No abyssea zone kills for vanquishes when exists)
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{8} },
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4016] = {   -- Vanquish Amorphs
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{1} },
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4017] = {   -- Vanquish Undead
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{19} },
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4018] = {   -- Vanquish Arcana
         trigger = triggers.mobKill,
         goal = 20,
         reqs = { mobXP = true, mobSystem = set{3} },
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     [4019] = {   -- Crack Treasure Caskets (Triggered from caskets.lua)
         goal = 10,
-        flags = set{"timed"},
-        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 }, repeatable = true},
+        flags = set{"timed", "repeat"},
+        reward = { sparks = 300, exp = 1500, unity = 300, item = { 8711 } },
     },
 
     -- [4020] = {  -- Physical Damage Kills
