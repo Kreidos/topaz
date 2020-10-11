@@ -2211,11 +2211,6 @@ for i,v in pairs(tpz.roe.records) do
     setmetatable(v, { __index = defaults })
 end
 
- -- Register triggers
-for i,v in pairs(triggers) do
-    RoeRegisterHandler(v)
-end
-
 -- Build global map of implemented records.
 -- This is used to deny taking records which aren't implemented in the above table.
 RoeParseRecords(tpz.roe.records)

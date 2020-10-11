@@ -54,47 +54,9 @@ void init()
     lua_getglobal(L, "ENABLE_ROE");
     roeutils::RoeSystem.RoeEnabled = lua_isnil(L, -1) || lua_tointeger(L, -1);
     lua_pop(L, 1);
-    lua_register(L, "RoeRegisterHandler", roeutils::RegisterHandler);
     lua_register(L, "RoeParseRecords", roeutils::ParseRecords);
     lua_register(L, "RoeParseTimed", roeutils::ParseTimedSchedule);
     RoeHandlers.fill(RoeCheckHandler());
-}
-
-int32 RegisterHandler(lua_State* L)
-{
-    if (lua_gettop(L) < 1 || !lua_isnumber(L, 1))
-    {
-        ShowError("ROEUtils: Invalid call to RegisterHandler.");
-    }
-
-    // Get Handler Event Type
-    auto event = lua_tointeger(L, 1);
-    if (event == 0 || event >= ROE_NONE)
-    {
-        ShowError("ROEUtils: Unknown Record trigger index %d.", event);
-        return 0;
-    }
-
-    RoeHandlers[event] = RoeCheckHandler();
-
-    // Build caching bitset from records
-    lua_getglobal(L, "tpz");
-    lua_getfield(L, -1, "roe");
-    lua_getfield(L, -1, "records");
-    lua_pushnil(L);
-    while (lua_next(L, -2) != 0)
-    {
-        lua_getfield(L, -1, "trigger");
-        uint32 recordID = static_cast<uint32>(lua_tointeger(L, -3));
-        uint32 trigger = static_cast<uint32>(lua_tointeger(L, -1));
-        lua_pop(L, 2);
-        if (trigger == event)
-            RoeHandlers[event].bitmap.set(recordID);
-    }
-
-//    ShowDebug("\nRegistered RoE Handler %d... ", event);
-
-    return 0;
 }
 
 int32 ParseRecords(lua_State* L)
@@ -102,19 +64,32 @@ int32 ParseRecords(lua_State* L)
     if (lua_isnil(L, -1) || !lua_istable(L, -1))
         return 0;
 
+    RoeHandlers.fill(RoeCheckHandler());
     roeutils::RoeSystem.ImplementedRecords.reset();
     roeutils::RoeSystem.RepeatableRecords.reset();
     roeutils::RoeSystem.DailyRecords.reset();
     roeutils::RoeSystem.DailyRecordIDs.clear();
     roeutils::RoeSystem.NotifyThresholds.fill(1);
 
-    // Build caching bitsets from records
+    // Read data from global records table
     lua_pushnil(L);
     while (lua_next(L, -2) != 0)
     {
         // Set Implemented bit.
         uint16 recordID = static_cast<uint16>(lua_tointeger(L, -2));
         roeutils::RoeSystem.ImplementedRecords.set(recordID);
+
+        // Register Trigger Handler
+        lua_getfield(L, -1, "trigger");
+        if (!lua_isnil(L, -1))
+        {
+            uint32 trigger = static_cast<uint32>(lua_tointeger(L, -1));
+            if (trigger > 0 && trigger < ROE_NONE)
+                RoeHandlers[trigger].bitmap.set(recordID);
+            else
+                ShowError("ROEUtils: Unknown Record trigger index %d for record %d.", trigger, recordID);
+        }
+        lua_pop(L, 1);
 
         // Set notification threshold
         lua_getfield(L, -1, "notify");

@@ -107,7 +107,6 @@ namespace roeutils
 extern RoeSystemData RoeSystem;
 
 void   init();
-int32  RegisterHandler(lua_State* L);
 int32  ParseRecords(lua_State* L);
 int32  ParseTimedSchedule(lua_State* L);
 
