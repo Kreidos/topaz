@@ -28,7 +28,7 @@
 CRoeSparkUpdatePacket::CRoeSparkUpdatePacket(CCharEntity* PChar)
 {
 	this->id(0x110);
-	this->length(0x10);
+	this->length(0x14);
 
     const char* query = "SELECT spark_of_eminence FROM char_points WHERE charid = %d";
 
@@ -36,7 +36,10 @@ CRoeSparkUpdatePacket::CRoeSparkUpdatePacket(CCharEntity* PChar)
     if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
         ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0);
-        ref<uint32>(0x0A) = 0xFFFFFFFF;  //Unknown purpose but always all 1's.
-        ref<uint16>(0x0E) = 0xFFFF;
+//        ref<uint16>(0x08) = 0x0;            // Deeds
+//        ref<uint16>(0x0A) = 0xFF;           // Unknown but seems to be all 1's or all 0's
+//        ref<uint16>(0x0C) = 0x0;            // Varies, possibly related to Unity Accolades
+//        ref<uint32>(0x0E) = 0xFFFFFFFF;     // Unknown but always all 1's.
+//        ref<uint16>(0x12) = 0xFFFF;         // Unknown but always all 1's.
     }
 }

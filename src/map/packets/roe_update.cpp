@@ -32,7 +32,11 @@ CRoeUpdatePacket::CRoeUpdatePacket(CCharEntity* PChar)
 
 	/*  Each 4-bit nibble in the 4-byte chunk is labeled here. The second number is it's position.
 	            (0 is the lowest order. IE the right-most bits)
-	            A1A0 B0A2 B2B1 B4B3  ||  A = Record ID B = Progress                                 */
+	            A1A0 B0A2 B2B1 B4B3  ||  A = Record ID B = Progress
+
+	            0x04 -> 0xC4  Player active records 1-30
+	            0xC8 -> 0xFC  Unknown, always looks like 0
+	            0x100         Time duration record                           */
 
 	for(uint32 i = 0; i < 31; i++)
 	{
