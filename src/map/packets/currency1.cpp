@@ -114,7 +114,6 @@ CCurrencyPacket1::CCurrencyPacket1(CCharEntity* PChar)
         ref<uint32>(0xA4) = Sql_GetIntData(SqlHandle, 54);
 
         // AMAN vouchers
-        // unity accolades
 
         ref<uint32>(0xAC) = Sql_GetIntData(SqlHandle, 55);
         ref<uint32>(0xB0) = Sql_GetIntData(SqlHandle, 56);

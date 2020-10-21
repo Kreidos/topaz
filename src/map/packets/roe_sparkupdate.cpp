@@ -36,10 +36,10 @@ CRoeSparkUpdatePacket::CRoeSparkUpdatePacket(CCharEntity* PChar)
     if (ret != SQL_ERROR && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
         ref<uint32>(0x04) = Sql_GetIntData(SqlHandle, 0);
-//        ref<uint16>(0x08) = 0x0;            // Deeds
-//        ref<uint16>(0x0A) = 0xFF;           // Unknown but seems to be all 1's or all 0's
-//        ref<uint16>(0x0C) = 0x0;            // Varies, possibly related to Unity Accolades
-//        ref<uint32>(0x0E) = 0xFFFFFFFF;     // Unknown but always all 1's.
-//        ref<uint16>(0x12) = 0xFFFF;         // Unknown but always all 1's.
+        ref<uint16>(0x08) = 0x0000;            // Deeds
+        ref<uint16>(0x0A) = 0xFFFF;            // Unknown but seems to be all 1's or all 0's
+        ref<uint16>(0x0C) = 0xFFFF;            // Varies, possibly related to Unity Accolades
+        ref<uint32>(0x0E) = 0xFFFFFFFF;     // Unknown but always all 1's.
+        ref<uint16>(0x12) = 0xFFFF;         // Unknown but always all 1's.
     }
 }
