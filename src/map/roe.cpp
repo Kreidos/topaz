@@ -270,14 +270,13 @@ namespace roeutils
     {
         uint16 completedCount = 0;
 
-        for (int page = 0; page < 512; page++)
+        for (int page = 0; page < 512; page+=sizeof(unsigned long))
         {
-            int pageVal = PChar->m_eminenceLog.complete[page];
+            auto pageVal = *(reinterpret_cast<unsigned long*>(PChar->m_eminenceLog.complete + page));
 
-            while (pageVal)
+            for ( ; pageVal; completedCount++)
             {
-                completedCount += pageVal & 1;
-                pageVal >>= 1;
+                pageVal &= (pageVal - 1);
             }
         }
 
